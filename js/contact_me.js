@@ -18,7 +18,7 @@ $(function() {
                 firstName = name.split(' ').slice(0, -1).join(' ');
             }
             $.ajax({
-                url: "././mail/contact_me.php",
+                url: "http://getsimpleform.com/messages/ajax?form_api_token=59606401edc31349a4f6026dded5f1cc",
                 type: "POST",
                 data: {
                     name: name,
@@ -26,6 +26,7 @@ $(function() {
                     email: email,
                     message: message
                 },
+                dataType: 'jsonp',
                 cache: false,
                 success: function() {
                     // Success message
@@ -33,7 +34,7 @@ $(function() {
                     $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                         .append("</button>");
                     $('#success > .alert-success')
-                        .append("<strong>Your message has been sent. </strong>");
+                        .append("<strong>Your message has been sent!</strong>");
                     $('#success > .alert-success')
                         .append('</div>');
 
@@ -45,7 +46,7 @@ $(function() {
                     $('#success').html("<div class='alert alert-danger'>");
                     $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                         .append("</button>");
-                    $('#success > .alert-danger').append("<strong>Sorry " + firstName + ", it seems that my mail server is not responding. Please try again later!");
+                    $('#success > .alert-danger').append("<strong>Sorry " + firstName + ", it seems that the darn server is not responding. Please, send an email to <a href=\"mailto:kim@codamono.com\">kim@codamono.com</a> instead!");
                     $('#success > .alert-danger').append('</div>');
                     //clear all fields
                     $('#contactForm').trigger("reset");

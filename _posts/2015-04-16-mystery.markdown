@@ -1,0 +1,17 @@
+---
+title: Mystery Project
+subtitle: As secret as the Batcave's location.
+layout: default
+modal-id: 2
+date: 2015-04-16
+img: Question-Marks600white.png
+thumbnail: Question-Marks-thumbnail.png
+alt: image-alt
+#project-date: April 2014
+#client: Start Bootstrap
+category: Software Development
+description:
+  - Unfortunately, not everything can be shared publicly before release. This project is one secret that has to stay a secret. Please stay tuned for further updates and follow <a href="http://twitter.com/CODAMONO">CODAMONO</a> on Twitter.
+  - Thank you!
+
+---
