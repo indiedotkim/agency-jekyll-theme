@@ -248,6 +248,37 @@ fieldset[disabled] .btn-xl.active {
     }
 
     .navbar-default .navbar-brand {
+        font-size: 1.6em;
+        -webkit-transition: all .3s;
+        -moz-transition: all .3s;
+        transition: all .3s;
+    }
+
+    .navbar-default .navbar-nav>.active>a {
+        border-radius: 3px;
+    }
+
+    .navbar-default.navbar-shrink {
+        padding: 10px 0;
+        background-color: #292929;
+    }
+
+    .navbar-default.navbar-shrink .navbar-brand {
+        font-size: 1.2em;
+    }
+}
+
+@media(min-width:1024px) {
+    .navbar-default {
+        padding: 25px 0;
+        border: 0;
+        background-color: transparent;
+        -webkit-transition: padding .3s;
+        -moz-transition: padding .3s;
+        transition: padding .3s;
+    }
+
+    .navbar-default .navbar-brand {
         font-size: 2em;
         -webkit-transition: all .3s;
         -moz-transition: all .3s;
@@ -282,8 +313,8 @@ header {
 }
 
 header .intro-text {
-    padding-top: 100px;
-    padding-bottom: 50px;
+    padding-top: 60px;
+    padding-bottom: 90px;
 }
 
 header .intro-text .intro-lead-in {
@@ -295,7 +326,7 @@ header .intro-text .intro-lead-in {
 }
 
 header .intro-text .intro-heading {
-    margin-bottom: 25px;
+    margin-bottom: 110px;
     text-transform: uppercase;
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 50px;
@@ -428,6 +459,21 @@ section h3.section-subheading {
 #portfolio * {
     z-index: 2;
 }
+
+/* Start background image adjustment for small screens: */
+.modal-body {
+    background-size: 6em 6em;
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+@media(max-width:600px) {
+    .modal-body {
+        padding-top: 7em;
+        background-position: top center;
+    }
+}
+/* End: background image adjustment for small screens. */
 
 @media(min-width:767px) {
     #portfolio .portfolio-item {
