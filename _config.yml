@@ -1,4 +1,4 @@
-url: https://codamono.com
+url: https://www.codamono.com
 baseurl: 
 
 # Site settings
@@ -52,7 +52,7 @@ color:
 # Social networks usernames (many more available: google-plus, flickr, dribbble, pinterest, instagram, tumblr, linkedin, etc.)
 social:
   - title: twitter
-    url: http://twitter.com/CODAMONO
+    url: https://twitter.com/CODAMONO
 #  - title: facebook
 #    url:
 #  - title: stack-overflow
