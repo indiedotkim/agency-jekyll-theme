@@ -4,6 +4,27 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+.try-buy {
+    text-align: center;
+    margin-bottom: 3ex;
+}
+
+.try-buy > * {
+    margin: 0 1ex;
+}
+
+.download {
+    text-align: center;
+}
+
+.download > * {
+    margin: 2ex 2ex;
+}
+
+.form-group-bot {
+    display: none;
+}
+
 body {
     overflow-x: hidden;
     font-family: "Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -12,6 +33,10 @@ body {
 
 .text-muted {
     color: #777;
+}
+
+.text-icon-dark {
+    color: #292929;
 }
 
 .text-primary {
