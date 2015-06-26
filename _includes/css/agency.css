@@ -25,6 +25,19 @@
     display: none;
 }
 
+.help-block {
+    font-size: 90%;
+}
+
+#biointerchangePurchaseForm {
+    margin: 1ex 0ex 10ex 0ex;
+}
+
+.page-list {
+    font-size: 90%;
+    line-height: 200%;
+}
+
 body {
     overflow-x: hidden;
     font-family: "Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
