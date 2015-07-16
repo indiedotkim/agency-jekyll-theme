@@ -1,0 +1,201 @@
+---
+layout: "page"
+title: "End User License Agreements"
+subtitle:
+img:
+thumbnail:
+alt:
+markdown: kramdown
+category: Software Development
+---
+
+<div class="nav-buttons">
+<a href="#summary-terms-amp-conditions" role="button" class="btn btn-primary page-scroll">Summary</a>
+<a href="#license-purchase-form" role="button" class="btn btn-primary page-scroll">Purchase Form</a>
+</div>
+
+BioInterchange is licensed via End-User License Agreements (EULAs). EULAs renew every months, which has many benefits over upfront payments:
+
+<dl class='dl-horizontal'>
+    <dt>Small Investment</dt>
+    <dd>If you only need to work with your data for a few weeks at a time, then only pay for an EULA when you need it!</dd>
+    <dt>Scalability</dt>
+    <dd>Upgrade/downgrade between EULAs as your team grows and shrinks. Moved from working with human genomic samples to a model organism? Then simply choose EULAs that are not HIPAA compliant, but which are also more cost effective!</dd>
+    <dt>Free Updates</dt>
+    <dd>Genomic file format specifications are a moving target. Instead of paying for new versions of BioInterchange when GFF3-, GVF-, VCF-specifications change, just receive updates for free as part of the EULA.</dd>
+</dl>
+
+## Summary: Terms &amp; Conditions
+
+{:.help-block}
+* view the complete [Terms &amp; Conditions](bla)
+
+### General
+
+End-user licenses give you the right to execute the software.
+
+Individual Licenses, Small Lab Licenses, and Team Licenses are restricted to a maximum number of simultaneous users.
+
+Cloud, Cluster &amp; HIPAA Licenses permit an unlimited number of users.
+
+All licenses are limited for use by
+
+{:.page-list}
+* an individual (Individual Licenses),
+* laboratories or groups within a company or institute (Small Lab Licenses), or
+* institute or consortium (Team Licenses and Cloud, Cluster &amp; HIPAA Licenses).
+
+### Billing
+
+Licenses are invoiced as a recurring monthly payment. The recurring payment can be canceled at any time; the license is still valid until the end of the current payment period. No pro rated refunds are available.
+
+MasterCard and VISA credit/debit cards are accepted for balancing invoices. Payments have to be made in Canadian Dollars (C$). Other payment methods or change in currency need to be negotiated on a case by case basis.
+
+### License Validation
+
+License keys are stored in a file that is read when the software is executed.
+
+Individual Licenses, Small Lab Licenses, and Team Licenses are validated over a secured HTTPS connection with a server at CODAMONO.
+
+Cloud, Cluster &amp; HIPAA Licenses operate 100% offline to ensure data confidentiality.
+
+### License Termination
+
+In the case of shenanigans, CODAMONO reserves the right to terminate licenses without pro rated refunds at any point.
+
+## License Purchase Form
+
+<form id="biointerchangePurchaseForm" name="sentMessage">
+    <h5>Country</h5>
+    <div class="form-group">
+        <select class="form-control" id="country" onchange="formStateChange(this, document.getElementById('state'), document.getElementById('vat-group'), document.getElementById('ind_lic'), new Array(document.getElementById('cur1'), document.getElementById('cur2'), document.getElementById('cur3'), document.getElementById('cur4'))); formRecalculateTotal();" aria-describedby="helpBlockCountry" required data-validation-required-message="Please select the country of your affiliation.">
+            <option value="">Select a Country *</option>
+            <option>Austria</option>
+            <option>Belgium</option>
+            <option>Canada</option>
+            <option>France</option>
+            <option>Germany</option>
+            <option>Italy</option>
+            <option>Ireland</option>
+            <option>Japan</option>
+            <option>Netherlands</option>
+            <option>Portugal</option>
+            <option>Spain</option>
+            <option>United Kingdom</option>
+            <option>United States</option>
+        </select>
+        <p class="help-block text-danger"></p>
+        <span id="helpBlockCountry" class="help-block"><ul><li>prices shown exclude tax for Canada/U.S. and include tax for EU countries and Japan</li></ul></span>
+    </div>
+    <h5>End User License Agreement</h5>
+    <div class="radio">
+        <label>
+            <input type="radio" value="cur1" name="license" id="ind_lic" onchange="formRecalculateTotal();" aria-describedby="helpBlock1"> <strong>Individual License.</strong> <span id="cur1"><em>(Select country for pricing)</em></span>.
+            <span id="helpBlock1" class="help-block"><ul><li>non-transferable individual license (Canada and U.S. only)</li><li>requires Internet access for license validation</li></ul></span>
+        </label>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" value="cur2" name="license" onchange="formRecalculateTotal();" aria-describedby="helpBlock2"> <strong>Small Lab License.</strong> <span id="cur2"><em>(Select country for pricing)</em></span>.
+            <span id="helpBlock2" class="help-block"><ul><li>up to 5 simultaneous users in a laboratory or group within a company or institute</li><li>requires Internet access for license validation</li><li>Cloud and HPC cluster installations are allowed, if restricted to the laboratory/group</li></ul></span>
+        </label>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" value="cur3" name="license" onchange="formRecalculateTotal();" aria-describedby="helpBlock3"> <strong>Team License.</strong> <span id="cur3"><em>(Select country for pricing)</em></span>.
+            <span id="helpBlock3" class="help-block"><ul><li>up to 20 simultaneous users across the globe within a company, institute or consortium</li><li>requires Internet access for license validation</li><li>Cloud and HPC cluster installations are allowed, if restricted to team members</li></ul></span>
+        </label>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" value="cur4" name="license" onchange="formRecalculateTotal();" aria-describedby="helpBlock4"> <strong>Cloud, Cluster &amp; HIPAA License.</strong> <span id="cur4"><em>(Select country for pricing)</em></span>.
+            <span id="helpBlock4" class="help-block"><ul><li>unlimited users within a company, institute, or consortium</li><li>100% offline</li></ul></span>
+        </label>
+    </div>
+    <h5>Billing Information</h5>
+    <div class="form-group">
+        <input type="name" class="form-control" placeholder="Your Name *" id="email" required data-validation-required-message="Please enter your name.">
+        <p class="help-block text-danger"></p>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Your Institute, Company, or Consortium *" id="affiliation" required data-validation-required-message="Please enter your affiliation (institute, company, or consortium).">
+        <p class="help-block text-danger"></p>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Address Line 1 *" id="address1" required data-validation-required-message="Please enter the address of your affiliation (street name and number, PO box).">
+        <p class="help-block text-danger"></p>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Address Line 2" id="address2">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="City *" id="city" required data-validation-required-message="Please enter the city of your affiliation.">
+        <p class="help-block text-danger"></p>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Postal Code/ZIP Code *" id="postcode" required data-validation-required-message="Please enter the postal code/ZIP code of your affiliation.">
+        <p class="help-block text-danger"></p>
+    </div>
+    <div class="form-group" hidden>
+        <select class="form-control" id="state" onchange="formRecalculateTotal();" required data-validation-required-message="Please select the state of your affiliation.">
+        </select>
+        <p class="help-block text-danger"></p>
+    </div>
+    <div class="form-group" id="vat-group" hidden>
+        <input type="text" class="form-control" placeholder="VAT Registration Number *" id="vatid" aria-describedby="helpblockVAT" required data-validation-required-message="Please enter the VAT registration number of your business.">
+        <p class="help-block text-danger"></p>
+        <span id="helpBlockVAT" class="help-block"><ul><li>B2B transactions only</li><li>VAT reverse charge mechanism</li></ul></span>
+    </div>
+    <h5>Contact Information</h5>
+    <div class="form-group">
+        <input type="email" class="form-control" placeholder="Your Email *" id="email" required data-validation-required-message="Please enter your email address.">
+        <p class="help-block text-danger"></p>
+    </div>
+    <div class="form-group-bot">
+        <input type="text" class="form-control" placeholder="URL" name="url" id="url">
+        <p class="help-block text-danger"></p>
+    </div>
+    <div class="form-group">
+        <input type="tel" class="form-control" placeholder="Your Phone" id="phone">
+        <p class="help-block text-danger"></p>
+    </div>
+    <h5>Summary</h5>
+    <div class="form-group">
+        <dl class="dl-horizontal">
+            <dt>License fee</dt>
+            <dd id="invoice_item">-</dd>
+            <dt>Tax</dt>
+            <dd id="invoice_tax">-</dd>
+            <dt>Rebate<span markdown="1">[^1]</span></dt>
+            <dd id="invoice_rebate">-</dd>
+            <dt></dt>
+            <dd><hr></dd>
+            <dt>Monthly recurring fee</dt>
+            <dd id="invoice_total">-</dd>
+        </dl>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="eula" value="eula" name="eula" required data-validation-required-message="Do you accept the Terms &amp; Conditions of the End User License Agreement?"> I accept the Terms &amp; Conditions of the End User License Agreement.
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="ccard" value="ccard" name="ccard" required data-validation-required-message="Invoice payments can only be made via MasterCard or VISA credit/debit cards."> I accept to balance invoices by either MasterCard or VISA credit/debit cards.
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" value="promotional" name="promo"> I would like to receive promotional e-mails from CODAMONO every now and then.
+        </label>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-lg-12 text-center">
+        <button type="submit" class="btn btn-xl"><i class="fa fa-credit-card fa-lg fa-fw"></i> Purchase</button>
+    </div>
+</form>
+
+[^1]: VAT (EU) or CT (Japan) reverse charge mechanism
+
+---
+

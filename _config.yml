@@ -11,6 +11,8 @@ color:
   codamono-text: d6d6d6
   primary: fed136
   secondary: fec503  
+  info-primary: 4cb1dc
+  info-secondary: 3999c3  
   secondary-dark: 333
   navbar-dark: 292929
 
@@ -72,3 +74,6 @@ address:
 # Build settings
 markdown: kramdown
 permalink: pretty
+
+kramdown:
+    syntax_highlighter: rouge

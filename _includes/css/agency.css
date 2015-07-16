@@ -4,12 +4,17 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-.try-buy {
+/* Needed to make page-scroll work: */
+#services h2 {
+    padding-top: 90px;
+}
+
+.nav-buttons {
     text-align: center;
     margin-bottom: 3ex;
 }
 
-.try-buy > * {
+.nav-buttons > * {
     margin: 0 1ex;
 }
 
@@ -36,6 +41,16 @@
 .page-list {
     font-size: 90%;
     line-height: 200%;
+}
+
+/* Darker panel background to make heading stick out: */
+.panel-default > .panel-heading {
+    background-color: #{{ site.color.secondary-dark }};
+}
+
+/* Make code blocks slightly smaller: */
+pre {
+    font-size: 83%;
 }
 
 body {
@@ -163,6 +178,55 @@ fieldset[disabled] .btn-primary.active {
 
 .btn-primary .badge {
     color: #{{ site.color.primary }};
+    background-color: #fff;
+}
+
+.btn-info {
+    border-color: #{{ site.color.info }};
+    text-transform: uppercase;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+    color: #fff;
+    background-color: #{{ site.color.info-primary }};
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-info.active,
+.open .dropdown-toggle.btn-info {
+    border-color: #{{ site.color.info-primary }};
+    color: #fff;
+    background-color: #{{ site.color.info-secondary }};
+}
+
+.btn-info:active,
+.btn-info.active,
+.open .dropdown-toggle.btn-info {
+    background-image: none;
+}
+
+.btn-info.disabled,
+.btn-info[disabled],
+fieldset[disabled] .btn-info,
+.btn-info.disabled:hover,
+.btn-info[disabled]:hover,
+fieldset[disabled] .btn-info:hover,
+.btn-info.disabled:focus,
+.btn-info[disabled]:focus,
+fieldset[disabled] .btn-info:focus,
+.btn-info.disabled:active,
+.btn-info[disabled]:active,
+fieldset[disabled] .btn-info:active,
+.btn-info.disabled.active,
+.btn-info[disabled].active,
+fieldset[disabled] .btn-info.active {
+    border-color: #{{ site.color.info-primary }};
+    background-color: #{{ site.color.info-primary }};
+}
+
+.btn-info .badge {
+    color: #{{ site.color.info-primary }};
     background-color: #fff;
 }
 

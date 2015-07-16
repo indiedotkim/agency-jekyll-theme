@@ -1,0 +1,1908 @@
+---
+layout: "page"
+title: "BioInterchange 2.0"
+subtitle: "Documentation"
+img: BioInterchange600white.png
+thumbnail: BioInterchange-thumbnail.png
+alt: image-alt
+markdown: kramdown
+category: Software Development
+---
+
+<div class="nav-buttons">
+<a href="#try-it-now" role="button" class="btn btn-primary page-scroll">Try it!</a>
+<a href="/biointerchange/purchase/" role="button" class="btn btn-primary">Buy it!</a>
+</div>
+
+## Usage
+
+### GFF3, GVF, VCF to JSON
+
+    biointerchange -o example.ldj example.vcf
+
+### JSON to GFF3, GVF, VCF
+
+    biointerchange -o example.vcf example.ldj
+
+### Python API
+
+    biointerchange -p simplepy.simple test-data/playground.gff3
+
+<dl>
+    <dt>Example</dt>
+    <dd markdown="1">
+~~~ python
+# This variable will be used to accumulate the
+# length (in basepairs) of all features that are
+# not filtered out in `process_feature` below.
+#
+# Use this or a similar approach to share data
+# across features.
+__accumulated_length__ = 0
+
+def setup(context, meta):
+    # The context is always being output, but meta
+    # could be omitted. How? It is quite simple:
+    # returning (a possibly modified) meta Dict
+    # will be output, but returning None will
+    # output no meta information.
+    return meta
+
+def cleanup(summary):
+    # Add the accumulated length of all features
+    # to the summary:
+    summary['my-user-data'] = { 'accumulated-length' : __accumulated_length__ }
+
+    # The Dict `summary` needs to be returned in order
+    # to appear in the output. If no summary should appear
+    # in the output, then None needs to be returned.
+    return summary
+
+def process_feature(feature):
+    global __accumulated_length__
+
+    locus = feature['locus']
+
+    length = abs(locus['end'] - locus['start']) + 1
+
+    # If we want to filter out some features (remove them
+    # from the output completely), then we can do so my
+    # returning None.
+    if length < 10000:
+        return None
+
+    __accumulated_length__ += length
+
+    feature['my-calculated-length'] = length
+
+    if 'comment' in feature:
+        del feature['comment']
+
+    return feature
+~~~
+</dd>
+</dl>
+
+## Data Model Reference
+
+### Overview
+
+Four kind of JSON objects are created with each execution of BioInterchange -- in this particular order:
+
+1. a "context object"
+2. zero, one, or more "meta objects" (pragma and information lines)
+3. a series of "feature objects" (the actual genomics feature-data)
+4. a "summary object"
+
+Relationships between objects:
+
+* context and summary objectss stand on their own; they are describing how the data was created, how much data was processed, and how long it took
+* meta objects themselves are also independent, but they can be referenced (linked to) by feature objects
+* feature objects can reference meta objects as well as other feature objects
+
+{:.help-block}
+In a nutshell: meta objects and feature objects contain the genomics data from GFF3, GVF, and VCF files; these objects are referencing each other (they are linked).
+
+**All** objects contain a "@context" key, which is just called context key in the following.
+
+The context key turns the JSON objects into JSON-LD objects. Never heard of JSON-LD? Just skip to the next part and ignore the "@context" key. This is what makes JSON-LD so great: you can handle JSON-LD objects just like JSON objects.
+
+If you do want to make use of the context key, then feed the JSON-LD objects to a Linked Data tool and it will annotate key/value pairs with type information. JSON-LD objects can also be turned into Triple Store compatible data formats, such as RDF N-Triples, RDF N-Quads, and RDF Turtle.
+
+#### Context Objects
+
+Context objects tell you something about the environment in which the following JSON objects ("meta objects", "feature objects" and "summary objects") were created.
+
+In essence, a context objects contains information about:
+
+* which version of BioInterchange was used
+* what the input filename was
+* the filetype of the input (GFF3, GVF, VCF)
+* what the output filename was (unless output went to the console)
+* whether the Python API was utilized
+* additional user-defined parameters
+
+#### Meta Objects
+
+#### Feature Objects
+
+#### Basic Feature Information
+
+<dl>
+    <dt>Example</dt>
+    <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+
+    }
+</dd>
+</dl>
+
+
+#### Variant and Reference Sequences
+
+Information about reference sequences is stored under the "reference" key. Variations are stored under the "variants" key and allele specific informations is labeled by "B", "C", etc. ("A" is denoting the reference, which is not explicitly labeled).
+
+<dl>
+    <dt>Example: GVF</dt>
+    <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "reference" : {
+            "sequence" : "A",
+            "codon" : "GAG"
+        },
+        "variants" : {
+            "B" : {
+                "sequence" : "G",
+                "codon" : "GAG"
+            },
+            "C" : {
+                "codon" : "GGG",
+                "sequence" : "T"
+            }
+        }
+    }
+</dd>
+    <dt>Example: VCF</dt>
+    <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "reference" : {
+            "sequence" : "G"
+        },
+        "variants" : {
+            "B" : {
+                "sequence" : "GA",
+                "allele-count" : 36
+            }
+        }
+    }
+</dd>
+</dl>
+
+#### Summary Objects
+
+Summary objects wrap-up everything that came beforehand. Namely:
+
+* statistics about the genomics data
+* runtime information
+
+Genomics data statistics capture how many comments were seen, how much metadata was read, and how much actual genomic features were processed.
+
+Runtime information tell you when BioInterchange was invoked, when it finished processing the data, and how many seconds it took to process the data.
+
+### JSON Reference Cards
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: B, C, etc.</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Alternative allele information (reference is implicitly labeled "A").</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>object</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:alleleB, gfvo-squared:alleleC, etc.</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "variants" : {
+            "B" : {
+                "sequence" : "G"
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: AA, AB, BB, AC, etc.</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Generic genotype information.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>object</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:genotypeAA, gfvo-squared:genotypeAB, etc.</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+            <dt>See Also</dt>
+            <dd>genotype</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "samples" : {
+            "129P2" : {
+                "AA" : {
+                    "genotype-likelihood-phred-scaled" : 53
+                },
+                "AB" : {
+                    "genotype-likelihood-phred-scaled" : 6
+                },
+                "BB" : {
+                    "genotype-likelihood-phred-scaled" : 0
+                },
+                "genotype" : {
+                    "sequences" : [
+                        "G",
+                        "A"
+                    ],
+                    "phased" : false,
+                    "alleles" : "AB"
+                }
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: affected-features</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Identifiers of features that are affected by a variant effect.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>array of strings</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:affectedFeatures</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "variants" : {
+            "B" : {
+                "effects" : [
+                    {
+                        "affected-features" : [
+                            "YAL067W-A"
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">affected-feature-type</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Type of the features that are affected by a variant effect.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:affectedFeatureType</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "variants" : {
+            "B" : {
+                "effects" : [
+                    {
+                        "affected-feature-type" : "transcript"
+                    }
+                ]
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: alignment</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>A sequence alignment.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>object</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:alignment</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gff-f1.json",
+        "alignment" : {
+            "id" : "EST23",
+            "start" : 1,
+            "end" : 21,
+            "strand" : null,
+            "cigar-string" : "8M3D6M1I6M"
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: allele-count</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Number of alleles in a genotype.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>number</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:alleleCount</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "variants" : {
+            "B" : {
+                "sequence" : "GA",
+                "allele-count" : 36
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: allele-frequency</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Frequency of an allele in a genotype.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>number</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:alleleFrequency</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "variants" : {
+            "B" : {
+                "sequence" : "GA",
+                "allele-frequency" : 1
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: allele-total-number</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Total number of alleles.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>number</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:alleleTotalNumber</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "allele-total-number" : 36
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">annotations</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Tags (or labels) assigned to a feature.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>array of strings</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:annotations</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "annotations" : [
+            "SP1"
+        ]
+    }
+</dd>
+            <dt>Annotation Source Example (Meta Document)</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-x1.json",
+        "technology-platform" : [
+            {
+                "id" : "SP1",
+                "types" : [
+                    "SNV"
+                ],
+                "comment" : "SNV information documented in Wiki."
+            }
+        ]
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: base-quality-rms</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Root-mean-square base quality of a genomic position.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>number</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:baseQualityRMS</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "base-quality-rms" : 3
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">build</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Name of a genomic build.</dd>
+            <dt>Appears in</dt>
+            <dd>meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:build</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "genome-build" : [
+            {
+                "source" : "NCBI",
+                "build" : "B36"
+            }
+        ]
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: cigar-string</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>A CIGAR formatted sequence alignment string.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>string in CIGAR format</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:cigarString</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gff-f1.json",
+        "alignment" : {
+            "id" : "EST23",
+            "start" : 1,
+            "end" : 21,
+            "strand" : null,
+            "cigar-string" : "8M3D6M1I6M"
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">codon</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>A codon sequence.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:codon</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "reference" : {
+            "sequence" : "A",
+            "codon" : "GAG"
+        },
+        "variants" : {
+            "B" : {
+                "sequence" : "G",
+                "codon" : "GAG"
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">codon-phase</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Phase of a coding sequence.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>number (values: 0, 1, 2)</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:codon-phase</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gff3-f1.json",
+        "codon-phase" : 0
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">comment</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>A free-text comment.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object, meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:comment</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-x1.json",
+        "technology-platform" : [
+            {  
+                "id" : "SP1",
+                "types" : [  
+                    "SNV"
+                ],
+                "comment" : "See notes on wiki."
+            }
+        ]
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">dbxref</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>External database references.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object, meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:dbxref</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "dbxref" : [
+            "SGRP:s01-675",
+            "EMBL:AA816246"
+        ]
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">depth</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Read depth.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>number</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:depth</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "depth" : 75,
+        "samples" : {
+            "129P2" : {
+                "depth" : 2
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">effect</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Name of the effect a variant has on another feature.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:effect</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "variants" : {
+            "B" : {
+                "effects" : [
+                    {
+                        "effect" : "upstream_gene_variant"
+                    }
+                ]
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">effects</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Container for variant effects.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>array of objects</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:effects</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "variants" : {
+            "B" : {
+                "effects" : [
+                    {
+                        "effect" : "upstream_gene_variant"
+                    }
+                ]
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">end</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>End coordinate of a feature or alignment.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>number</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:end</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gff3-f1.json",
+        "locus" : {
+            "landmark" : "Chr1",
+            "start" : 290207,
+            "end" : 291002,
+            "strand" : "+"
+        },
+        "alignment" : {
+            "id" : "EST23",
+            "start" : 1,
+            "end" : 21,
+            "strand" : null,
+            "cigar-string" : "8M3D6M1I6M"
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">genome-build</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Information about the underlying genome builds of a data set.</dd>
+            <dt>Appears in</dt>
+            <dd>meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>array of objects</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:genomeBuild</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "genome-build" : [
+            {
+                "source" : "NCBI",
+                "build" : "B36"
+            }
+        ]
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: genotype</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Feature or sample specific genotype information.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>object</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:genotype</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+            <dt>See Also</dt>
+            <dd>AA, AB, etc.</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "samples" : {
+            "129P2" : {
+                "AA" : {
+                    "genotype-likelihood-phred-scaled" : 53
+                },
+                "AB" : {
+                    "genotype-likelihood-phred-scaled" : 6
+                },
+                "BB" : {
+                    "genotype-likelihood-phred-scaled" : 0
+                },
+                "genotype" : {
+                    "sequences" : [
+                        "G",
+                        "A"
+                    ],
+                    "phased" : false,
+                    "alleles" : "AB"
+                }
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">gff-version</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Genomics file-format versioning of GFF3 data sources.</dd>
+            <dt>Appears in</dt>
+            <dd>meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:gffVersion</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gff3-x1.json",
+        "gff-version" : "1.21"
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: global</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Global assignment that applies to all features in the data set.</dd>
+            <dt>Appears in</dt>
+            <dd>meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>object</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:id</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-x1.json",
+        "technology-platform" : {
+            "global" : {
+                "comment" : "Preliminary data."
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">gvf-version</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Genomics file-format versioning of GVF data sources.</dd>
+            <dt>Appears in</dt>
+            <dd>meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:gvfVersion</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-x1.json",
+        "gvf-version" : "1.07"
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">id</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>An identifier.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object, meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:id</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gff3-f1.json",
+        "id" : "ENSG00000139618"
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">landmark</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>A named genomic or proteomic landmark.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:landmark</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gff3-f1.json",
+        "locus" : {
+            "landmark" : "Chr1",
+            "start" : 290207,
+            "end" : 291002
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">landmarks</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>List of landmark identifiers.</dd>
+            <dt>Appears in</dt>
+            <dd>meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>array of strings</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:landmarks</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "technology-platform" : [
+            {
+                "id" : "SP1",
+                "landmarks" : [
+                    "Chr1", "ChrX"
+                ]
+            }
+        ]
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">locus</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>A genomic or proteomic locus.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>object</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:locus</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gff3-f1.json",
+        "locus" : {
+            "landmark" : "Chr1",
+            "start" : 290207,
+            "end" : 291002
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: mapping-quality-rms</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Root-mean-square mapping quality.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>number</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:mappingQualityRMS</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "mapping-quality-rms" : 29
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">ontology-term</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Ontology terms associated with a genomic feature.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>array of strings</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:ontology-term</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gff3-f1.json",
+        "ontology-term" : [
+            "GO:0046703"
+        ]
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: read-pair-span</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Global assignment that applies to all features in the data set.</dd>
+            <dt>Appears in</dt>
+            <dd>meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>array of numbers</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:readPairSpan</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-x1.json",
+        "technology-platform" : {
+            "SP1" : {
+                "read-pair-span" : [
+                    135,
+                    440
+                ]
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: reads-with-zero-mapping-quality</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Number of reads with mapping quality being equal to zero.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>number</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:readsWithZeroMappingQuality</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "reads-with-zero-mapping-quality" : 2
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">reference</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Reference sequence information.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>object</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:reference</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "reference" : {
+            "sequence" : "A"
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: samples</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Sample information</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>object</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:samples</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "samples" : {
+            "129P2" : {
+                "genotype" : {
+                    "sequences" : [
+                        "G",
+                        "A"
+                    ],
+                    "phased" : false,
+                    "alleles" : "AB"
+                }
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: samples-with-data</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Number of samples with data.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>number</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:samplesWithData</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "samples-with-data" : 1
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: sequence</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Genomic or proteomic sequence.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:sequence</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gff3-f1.json",
+        "id" : "CDS1",
+        "locus" : {
+            "landmark" : "chr4",
+            "start" : 2,
+            "end" : 36,
+            "strand" : "-"
+        },
+        "type" : "CDS",
+        "sequence" : "gttcattgctgcctgcatgttcattgtctacctcg"
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key: sequences</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>A list of genomic or proteomic sequences.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>object</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:sequences</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "samples" : {
+            "129P2" : {
+                "genotype" : {
+                    "sequences" : [
+                        "G",
+                        "A"
+                    ],
+                    "alleles" : "AB"
+                }
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">source</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Database or algorithm name that is the source of a feature or data set.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:source</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "source" : "samtools"
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">sources</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>List of data sources.</dd>
+            <dt>Appears in</dt>
+            <dd>meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>array of strings</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:sources</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "technology-platform" : [
+            {
+                "id" : "SP1",
+                "sources" : [
+                    "Genbank", "dbSNP"
+                ]
+            }
+        ]
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">start</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Start coordinate of a feature or alignment.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>number</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:start</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gff3-f1.json",
+        "locus" : {
+            "landmark" : "Chr1",
+            "start" : 290207,
+            "end" : 291002,
+            "strand" : "+"
+        },
+        "alignment" : {
+            "id" : "EST23",
+            "start" : 1,
+            "end" : 21,
+            "strand" : null,
+            "cigar-string" : "8M3D6M1I6M"
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">strand</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Strand on which a feature is located.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>string ("+": forward strand, "-": reverse strand)</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:strand</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gff3-f1.json",
+        "locus" : {
+            "landmark" : "Chr1",
+            "start" : 290207,
+            "end" : 291002,
+            "strand" : "+"
+        },
+        "alignment" : {
+            "id" : "EST23",
+            "start" : 1,
+            "end" : 21,
+            "strand" : "+",
+            "cigar-string" : "8M3D6M1I6M"
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">technology-platform</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Information about the technology platform that was used to create a data set.</dd>
+            <dt>Appears in</dt>
+            <dd>meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>array of objects</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:techn</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-x1.json",
+        "technology-platform" : [
+            {
+                "id" : "SP1",
+                "types" : [
+                    "SNV"
+                ],
+                "comment" : "SNV data described in Wiki."
+            }
+        ]
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">type</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Feature type.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:type</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "type" : "SNV"
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">types</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>List of feature types.</dd>
+            <dt>Appears in</dt>
+            <dd>meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>array of strings</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:types</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "technology-platform" : [
+            {
+                "id" : "SP1",
+                "types" : [
+                    "SNV"
+                ],
+                "comment" : "SNV data described in Wiki."
+            }
+        ]
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">user-defined</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Key/value pairs that are not defined in the GFF3-, GVF-, or VCF-specification.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>object containing key/value pairs</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:user-defined</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+            <dt>See Also</dt>
+            <dd>Appendix: unknown keys</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "user-defined" : {
+            "VDB" : 0.0006,
+            "INDEL" : true,
+            "DP4" : "0,0,71,0"
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">variants</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>A collection of sequence variants.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object</dd>
+            <dt>JSON Type</dt>
+            <dd>object</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:variants</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "variants" : {
+            "B" : {
+                "sequence" : "T"
+            }
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">vcf-version</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Genomics file-format versioning of VCF data sources.</dd>
+            <dt>Appears in</dt>
+            <dd>meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:vcfVersion</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-x1.json",
+        "vcf-version" : "4.2"
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Appendix: unknown keys</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>Keys that are user defined.</dd>
+            <dt>Appears in</dt>
+            <dd>feature object, meta object</dd>
+            <dt>JSON Type</dt>
+            <dd>string</dd>
+            <dt>JSON-LD Type</dt>
+            <dd>gfvo-squared:unknownProperty-*</dd>
+            <dt>Genomic Data Source</dt>
+            <dd>GFF3 (version 1.21), GVF (version 1.07), VCF (version 4.2)</dd>
+            <dt>In Model Version</dt>
+            <dd>1</dd>
+            <dt>Note</dt>
+            <dd>The GFVO<sup>2</sup> type expands to include the unknown key. For example, "VDB" becomes "gfvo-squared:unknownProperty-VDB".</dd>
+        </dl>
+        <dl>
+            <dt>Example</dt>
+            <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
+        "user-defined" : {
+            "VDB" : 0.0006,
+            "INDEL" : true,
+            "DP4" : "0,0,71,0"
+        }
+    }
+</dd>
+        </dl>
+    </div>
+</div>
+
+
