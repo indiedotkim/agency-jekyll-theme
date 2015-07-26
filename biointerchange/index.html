@@ -1,7 +1,7 @@
 ---
 layout: "page"
 title: "BioInterchange 2.0"
-subtitle: "Genomics. The Cloud. NoSQL."
+subtitle: "Scaling and Integrating Genomics Data."
 img: BioInterchange600white.png
 thumbnail: BioInterchange-thumbnail.png
 alt: image-alt
@@ -18,13 +18,22 @@ category: Software Development
 <a href="/biointerchange/documentation/" role="button" class="btn btn-info">Documentation</a>
 </div>
 
+Genomic data comes in files, which is pretty awesome, if you are a file system! For data scientists or bioinformaticians it is an unnecessary hurdle to get to the juicy data though.
+
+BioInterchange gets you to the data straightaway:
+
+* one easy-to-read __data view__ to multiple genomics standards (GFF3, GVF, VCF)
+* high-performance data access via __Python API__ that outperforms BioPython and BioRuby
+* data integration into RethinkDB, MongoDB, Elasticseach, etc., via __JSON__
+* more data integration into RDF triple stores via __JSON-LD__
+
 Cloud and NoSQL genomics data integration made easy. BioInterchange transforms multiple genomic data formats into an annotated JSON format to enable harmonized data access and data mining. Instantly upload BioInterchange's JSON output into the Cloud or contemporary NoSQL databases. Elasticsearch, MongoDB, RethinkDB, and many other databases become immediately available for genomics data hosting with the press of a key.
 
 For specific information regarding the representation of genomic data using Semantic Web technology and the Genomic Feature and Variation Ontology (GFVO), please visit: [https://peerj.com/articles/933/](https://peerj.com/articles/933/)
 
 ## Try It Now!
 
-### Step 1: Download the Software
+### Step 1: Install the Software
 
 BioInterchange is available for OS X[^1] and Linux.[^2] Installation packages come in various flavors: some are better for easy manual installation, others are geared towards automatic deployment, for use in the cloud, or for installation on high performance computing clusters. If in doubt, choose the direct download method below.
 
@@ -50,11 +59,17 @@ BioInterchange is available for OS X[^1] and Linux.[^2] Installation packages co
 
 #### Homebrew (OS X)
 
+As soon as Homebrew Binary accepts BioInterchange's formula:
+
     brew install homebrew/binary/biointerchange
 
-#### Amazon AMI (Linux)
+In the meantime:
 
-AMI 1234
+    brew install https://raw.githubusercontent.com/indiedotkim/homebrew-binary/master/biointerchange.rb
+
+#### Docker (Linux)
+
+
 
 [^1]: OS X Yosemite (Version 10.10.3) or later.
 
@@ -90,7 +105,7 @@ Trial licenses are valid for one month (30 days). Fill in the small form below a
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" value=""> I accept the terms and conditions of the <a href="">BioInterchange license agreement</a>.
+            <input type="checkbox" value="terms" required data-validation-required-message="Please accept the license agreementa."> I accept the terms and conditions of the <a href="">BioInterchange license agreement</a>.
         </label>
     </div>
     <button type="submit" class="btn btn-primary"><i class="fa fa-key fa-lg fa-fw"></i> Request Key</button>

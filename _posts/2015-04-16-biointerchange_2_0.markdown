@@ -1,6 +1,6 @@
 ---
 title: BioInterchange 2.0
-subtitle: Genomics. The Cloud. NoSQL.
+subtitle: Scaling and Integrating Genomics Data.
 layout: default
 modal-id: 1
 date: 2015-04-16
