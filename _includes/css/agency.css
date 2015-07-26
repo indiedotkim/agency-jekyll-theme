@@ -4,6 +4,23 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+/* Give headings a bit more room: */
+#services dt {
+    padding-bottom: 0.75ex;
+}
+
+#services ol {
+    list-style-type: upper-roman;
+}
+
+#services ol li ol {
+    list-style-type: decimal;
+}
+
+#services ol li ol li ol {
+    list-style-type: lower-latin;
+}
+
 /* Needed to make page-scroll work: */
 #services h2 {
     padding-top: 90px;
