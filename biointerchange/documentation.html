@@ -20,6 +20,8 @@ category: Software Development
    1. [GFF3, GVF, VCF to JSON](#gff3-gvf-vcf-to-json){:.page-scroll}
    2. [JSON to GFF3, GVF, VCF](#json-to-gff3-gvf-vcf){:.page-scroll}
    3. [Python API](#python-api){:.page-scroll}
+   4. [RethinkDB](#rethinkdb){:.page-scroll}
+   5. [MongoDB](#mongodb){:.page-scroll}
 2. [Data Model](#data-model){:.page-scroll}
    1. [Overview](#overview){:.page-scroll}
       1. [Context Objects](#context-objects){:.page-scroll}
@@ -63,7 +65,7 @@ Except for the "Cloud, Cluster & HIPAA License" version of BioInterchange, the s
     <dt>VCF</dt><dd><a href="https://samtools.github.io/hts-specs/VCFv4.2.pdf">Variant Call Format</a></dd>
 </dl>
 
-### GFF3 GVF, VCF to JSON
+### GFF3, GVF, VCF to JSON
 
 Converting genomic file formats to a series of JSON objects:
 
@@ -192,6 +194,56 @@ def process_feature(feature):
 </dd>
 </dl>
 
+### RethinkDB
+
+Take the cat lovers example from the main page:
+
+    wget ftp://ftp.ensembl.org/pub/release-81/variation/vcf/felis_catus/Felis_catus_incl_consequences.vcf.gz
+    gunzip Felis_catus_incl_consequences.vcf.gz
+    biointerchange -o Felis_catus_incl_consequences.ldj Felis_catus_incl_consequences.vcf
+
+Import line-delimited JSON-LD documents into RethinkDB:
+
+    rethinkdb import -f Felis_catus_incl_consequences.ldj --table genomics.felis_catus
+
+Check that the data is actually in the database using RethinkDB's "Data Explorer" (for local installation at `http://localhost:8080/#dataexplorer`):
+
+    r.db('genomics').table('felis_catus')
+
+Voila!
+
+### MongoDB
+
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+        <div class="panel panel-info" role="alert">
+            <div class="panel-heading">
+                Note
+            </div>
+            <div class="panel-body">
+                MongoDB can be a bit much to begin with. Have a look at RethinkDB for starters! RethinkDB has a great intuitive web-interface, easy-peasy indexing and sharding support, and a cool query language (ReQL).
+            </div>
+        </div>
+    </div>
+</div>
+
+Take the cat lovers example from the main page:
+
+    wget ftp://ftp.ensembl.org/pub/release-81/variation/vcf/felis_catus/Felis_catus_incl_consequences.vcf.gz
+    gunzip Felis_catus_incl_consequences.vcf.gz
+    biointerchange -o Felis_catus_incl_consequences.ldj Felis_catus_incl_consequences.vcf
+
+Import line-delimited JSON-LD documents into MongoDB:
+
+    mongoimport --db genomics --collection felis_catus --type json --file Felis_catus_incl_consequences.ldj
+
+Check that the data is actually in the database:
+
+    mongo genomics
+    > db.felis_catus.find()
+
+Voila!
+
 ## Data Model
 
 ### Overview
@@ -226,7 +278,7 @@ Relationships between objects:
 
 The context key turns the JSON objects into JSON-LD objects. Never heard of JSON-LD? Just skip to the next part and ignore the "@context" key. This is what makes JSON-LD so great: you can handle JSON-LD objects just like JSON objects.
 
-If you do want to make use of the context key, then feed the JSON-LD objects to a Linked Data tool and it will annotate key/value pairs with type information. JSON-LD objects can also be turned into Triple Store compatible data formats, such as RDF N-Triples, RDF N-Quads, and RDF Turtle. Want to see a real-life example of this magic? Head over to the [JSON-LD Playground](http://json-ld.org/playground/) and copy/paste any JSON-LD object into the "JSON-LD Input" text field: the "N-Quads" tab will instantly show a triples representation of the JSON-LD object that can be loaded into an RDF triple store.
+If you do want to make use of the context key, then feed the JSON-LD objects to a Linked Data tool and it will annotate key/value pairs with type information. JSON-LD objects can also be turned into Triple Store compatible data formats, such as RDF N-Triples, RDF N-Quads, and RDF Turtle. Want to see a real-life example of this magic? Head over to the [JSON-LD Playground](http://json-ld.org/playground/) and copy/paste any JSON-LD object into the "JSON-LD Input" text field: the "N-Quads" tab will instantly show a triples representation of the JSON-LD object that can be loaded into a triple store.
 
 <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
@@ -240,7 +292,6 @@ If you do want to make use of the context key, then feed the JSON-LD objects to 
         </div>
     </div>
 </div>
-For specific information regarding the representation of genomic data using Semantic Web technology and the Genomic Feature and Variation Ontology (GFVO), please visit: [https://peerj.com/articles/933/](https://peerj.com/articles/933/)
 
 #### Context Objects
 
@@ -436,7 +487,6 @@ VCF genomic files contain information about samples. Reference, variant, and oth
     }
 </dd>
 </dl>
-
 
 #### Summary Objects
 

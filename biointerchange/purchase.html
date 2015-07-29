@@ -14,16 +14,29 @@ category: Software Development
 <a href="#license-purchase-form" role="button" class="btn btn-primary page-scroll">Purchase Form</a>
 </div>
 
-BioInterchange is licensed via End-User License Agreements (EULAs). EULAs renew every months, which has many benefits over upfront payments:
+BioInterchange is licensed via End-User License Agreements (EULAs). EULAs renew every month, which has many benefits over upfront payments:
 
 <dl class='dl-horizontal'>
     <dt>Small Investment</dt>
     <dd>If you only need to work with your data for a few weeks at a time, then only pay for an EULA when you need it!</dd>
-    <dt>Scalability</dt>
+    <dt>Flexibility</dt>
     <dd>Upgrade/downgrade between EULAs as your team grows and shrinks. Moved from working with human genomic samples to a model organism? Then simply choose EULAs that are not HIPAA compliant, but which are also more cost effective!</dd>
     <dt>Free Updates</dt>
-    <dd>Genomic file format specifications are a moving target. Instead of paying for new versions of BioInterchange when GFF3-, GVF-, VCF-specifications change, just receive updates for free as part of the EULA.</dd>
+    <dd>Genomic file format specifications are a moving target. Instead of paying for new versions of BioInterchange when GFF3-, GVF-, VCF-specifications change, just receive updates for free as part of the EULA. Not to spill the beans, but there might be support for genomics formats and more, which are also going to be free updates.</dd>
 </dl>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+        <div class="panel panel-info" role="alert">
+            <div class="panel-heading">
+                Trial/Reviewer Licenses
+            </div>
+            <div class="panel-body">
+                See the <a href="/biointerchange">overview page</a> for information about requesting trial licenses or licenses for reviewers in the academic peer-review process. Both license types are free.
+            </div>
+        </div>
+    </div>
+</div>
 
 ## Summary: Terms &amp; Conditions
 
@@ -34,16 +47,16 @@ BioInterchange is licensed via End-User License Agreements (EULAs). EULAs renew 
 
 End-user licenses give you the right to execute the software.
 
-Individual Licenses, Small Lab Licenses, and Team Licenses are restricted to a maximum number of simultaneous users.
+Individual Licenses and Team Licenses are restricted to a maximum number of simultaneous users.
 
 Cloud, Cluster &amp; HIPAA Licenses permit an unlimited number of users.
 
-All licenses are limited for use by
+Licenses are limited for use by
 
 {:.page-list}
-* an individual (Individual Licenses),
-* laboratories or groups within a company or institute (Small Lab Licenses), or
-* institute or consortium (Team Licenses and Cloud, Cluster &amp; HIPAA Licenses).
+* individuals on personal projects (Individual Licenses),
+* teams or groups within companies or institutes (Team Licenses), or
+* anyone in an institute or consortium (Cloud, Cluster &amp; HIPAA Licenses).
 
 ### Billing
 
@@ -68,7 +81,7 @@ In the case of shenanigans, CODAMONO reserves the right to terminate licenses wi
 <form id="biointerchangePurchaseForm" name="sentMessage">
     <h5>Country</h5>
     <div class="form-group">
-        <select class="form-control" id="country" onchange="formStateChange(this, document.getElementById('state'), document.getElementById('vat-group'), document.getElementById('ind_lic'), new Array(document.getElementById('cur1'), document.getElementById('cur2'), document.getElementById('cur3'), document.getElementById('cur4'))); formRecalculateTotal();" aria-describedby="helpBlockCountry" required data-validation-required-message="Please select the country of your affiliation.">
+        <select class="form-control" name="country" id="country" onchange="formStateChange(this, document.getElementById('state'), document.getElementById('vat-group'), document.getElementById('ind_lic'), new Array(document.getElementById('cur1'), document.getElementById('cur2'), document.getElementById('cur3'))); formRecalculateTotal();" aria-describedby="helpBlockCountry" required data-validation-required-message="Please select the country of your affiliation.">
             <option value="">Select a Country *</option>
             <option>Austria</option>
             <option>Belgium</option>
@@ -85,70 +98,64 @@ In the case of shenanigans, CODAMONO reserves the right to terminate licenses wi
             <option>United States</option>
         </select>
         <p class="help-block text-danger"></p>
-        <span id="helpBlockCountry" class="help-block"><ul><li>prices shown exclude tax for Canada/U.S. and include tax for EU countries and Japan</li></ul></span>
+        <span id="helpBlockCountry" class="help-block"><ul><li>prices shown exclude tax for Canada/U.S; prices exclude tax for EU countries and Japan (reverse charge mechanism applies)</li></ul></span>
     </div>
     <h5>End User License Agreement</h5>
     <div class="radio">
         <label>
             <input type="radio" value="cur1" name="license" id="ind_lic" onchange="formRecalculateTotal();" aria-describedby="helpBlock1"> <strong>Individual License.</strong> <span id="cur1"><em>(Select country for pricing)</em></span>.
-            <span id="helpBlock1" class="help-block"><ul><li>non-transferable individual license (Canada and U.S. only)</li><li>requires Internet access for license validation</li></ul></span>
+            <span id="helpBlock1" class="help-block"><ul><li>non-transferable individual license (Canada and U.S. only)</li><li>requires Internet access for license validation</li><li>for personal use only</li></ul></span>
         </label>
     </div>
     <div class="radio">
         <label>
-            <input type="radio" value="cur2" name="license" onchange="formRecalculateTotal();" aria-describedby="helpBlock2"> <strong>Small Lab License.</strong> <span id="cur2"><em>(Select country for pricing)</em></span>.
-            <span id="helpBlock2" class="help-block"><ul><li>up to 5 simultaneous users in a laboratory or group within a company or institute</li><li>requires Internet access for license validation</li><li>Cloud and HPC cluster installations are allowed, if restricted to the laboratory/group</li></ul></span>
+            <input type="radio" value="cur2" name="license" onchange="formRecalculateTotal();" aria-describedby="helpBlock3"> <strong>Team License.</strong> <span id="cur2"><em>(Select country for pricing)</em></span>.
+            <span id="helpBlock3" class="help-block"><ul><li>up to 5 simultaneous colocated users within a company, institute or consortium</li><li>requires Internet access for license validation</li><li>Cloud and HPC cluster installations are allowed, if restricted to team members</li></ul></span>
         </label>
     </div>
     <div class="radio">
         <label>
-            <input type="radio" value="cur3" name="license" onchange="formRecalculateTotal();" aria-describedby="helpBlock3"> <strong>Team License.</strong> <span id="cur3"><em>(Select country for pricing)</em></span>.
-            <span id="helpBlock3" class="help-block"><ul><li>up to 20 simultaneous users within a company or institute</li><li>requires Internet access for license validation</li><li>Cloud and HPC cluster installations are allowed, if restricted to team members</li></ul></span>
-        </label>
-    </div>
-    <div class="radio">
-        <label>
-            <input type="radio" value="cur4" name="license" onchange="formRecalculateTotal();" aria-describedby="helpBlock4"> <strong>Cloud, Cluster &amp; HIPAA License.</strong> <span id="cur4"><em>(Select country for pricing)</em></span>.
-            <span id="helpBlock4" class="help-block"><ul><li>unlimited users within a company or institute</li><li>100% offline</li></ul></span>
+            <input type="radio" value="cur3" name="license" onchange="formRecalculateTotal();" aria-describedby="helpBlock4"> <strong>Cloud, Cluster &amp; HIPAA License.</strong> <span id="cur3"><em>(Select country for pricing)</em></span>.
+            <span id="helpBlock4" class="help-block"><ul><li>unlimited users within a company, institute, or consortium</li><li>100% offline</li></ul></span>
         </label>
     </div>
     <h5>Billing Information</h5>
     <div class="form-group">
-        <input type="name" class="form-control" placeholder="Your Name *" id="email" required data-validation-required-message="Please enter your name.">
+        <input type="name" class="form-control" placeholder="Your Name *" name="name" id="name" required data-validation-required-message="Please enter your name.">
         <p class="help-block text-danger"></p>
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" placeholder="Your Institute, Company, or Consortium *" id="affiliation" required data-validation-required-message="Please enter your affiliation (institute, company, or consortium).">
+        <input type="text" class="form-control" placeholder="Your Institute, Company, or Consortium *" name="affiliation" id="affiliation" required data-validation-required-message="Please enter your affiliation (institute, company, or consortium).">
         <p class="help-block text-danger"></p>
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" placeholder="Address Line 1 *" id="address1" required data-validation-required-message="Please enter the address of your affiliation (street name and number, PO box).">
+        <input type="text" class="form-control" placeholder="Address Line 1 *" name="address1" id="address1" required data-validation-required-message="Please enter the address of your affiliation (street name and number, PO box).">
         <p class="help-block text-danger"></p>
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" placeholder="Address Line 2" id="address2">
+        <input type="text" class="form-control" placeholder="Address Line 2" name="address2" id="address2">
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" placeholder="City *" id="city" required data-validation-required-message="Please enter the city of your affiliation.">
+        <input type="text" class="form-control" placeholder="City *" name="city" id="city" required data-validation-required-message="Please enter the city of your affiliation.">
         <p class="help-block text-danger"></p>
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" placeholder="Postal Code/ZIP Code *" id="postcode" required data-validation-required-message="Please enter the postal code/ZIP code of your affiliation.">
+        <input type="text" class="form-control" placeholder="Postal Code/ZIP Code *" name="postcode" id="postcode" required data-validation-required-message="Please enter the postal code/ZIP code of your affiliation.">
         <p class="help-block text-danger"></p>
     </div>
     <div class="form-group" hidden>
-        <select class="form-control" id="state" onchange="formRecalculateTotal();" required data-validation-required-message="Please select the state of your affiliation.">
+        <select class="form-control" name="state" id="state" onchange="formRecalculateTotal();" required data-validation-required-message="Please select the state of your affiliation.">
         </select>
         <p class="help-block text-danger"></p>
     </div>
     <div class="form-group" id="vat-group" hidden>
-        <input type="text" class="form-control" placeholder="VAT Registration Number *" id="vatid" aria-describedby="helpblockVAT" required data-validation-required-message="Please enter the VAT registration number of your business.">
+        <input type="text" class="form-control" placeholder="VAT Registration Number *" name="vatid" id="vatid" aria-describedby="helpblockVAT">
         <p class="help-block text-danger"></p>
         <span id="helpBlockVAT" class="help-block"><ul><li>B2B transactions only</li><li>VAT reverse charge mechanism</li></ul></span>
     </div>
     <h5>Contact Information</h5>
     <div class="form-group">
-        <input type="email" class="form-control" placeholder="Your Email *" id="email" required data-validation-required-message="Please enter your email address.">
+        <input type="email" class="form-control" placeholder="Your Email *" name="email" id="email" required data-validation-required-message="Please enter your email address.">
         <p class="help-block text-danger"></p>
     </div>
     <div class="form-group-bot">
@@ -156,7 +163,7 @@ In the case of shenanigans, CODAMONO reserves the right to terminate licenses wi
         <p class="help-block text-danger"></p>
     </div>
     <div class="form-group">
-        <input type="tel" class="form-control" placeholder="Your Phone" id="phone">
+        <input type="tel" class="form-control" placeholder="Your Phone" name="phone" id="phone">
         <p class="help-block text-danger"></p>
     </div>
     <h5>Summary</h5>
@@ -164,10 +171,10 @@ In the case of shenanigans, CODAMONO reserves the right to terminate licenses wi
         <dl class="dl-horizontal">
             <dt>License fee</dt>
             <dd id="invoice_item">-</dd>
-            <dt>Tax</dt>
+            <dt>Tax<span markdown="1">[^1]</span></dt>
             <dd id="invoice_tax">-</dd>
-            <dt>Rebate<span markdown="1">[^1]</span></dt>
-            <dd id="invoice_rebate">-</dd>
+            <!-- <dt>Rebate</dt>
+            <dd id="invoice_rebate">-</dd> -->
             <dt></dt>
             <dd><hr></dd>
             <dt>Monthly recurring fee</dt>
@@ -191,11 +198,12 @@ In the case of shenanigans, CODAMONO reserves the right to terminate licenses wi
     </div>
     <div class="clearfix"></div>
     <div class="col-lg-12 text-center">
+        <div id="success"></div>
         <button type="submit" class="btn btn-xl"><i class="fa fa-credit-card fa-lg fa-fw"></i> Purchase</button>
     </div>
 </form>
 
-[^1]: VAT (EU) or CT (Japan) reverse charge mechanism
-
 ---
+
+[^1]: Reverse charge mechanism applied to VAT (EU) and CT (Japan)
 

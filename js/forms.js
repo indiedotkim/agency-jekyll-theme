@@ -36,7 +36,7 @@ function formPopulatePrices(cur, prc) {
 
 function formCurrency(amount)
 {
-    return '$C' + amount.toFixed(2);
+    return 'C$' + amount.toFixed(2);
 }
 
 function formInvoice(price, tax, rebate, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, taxIncluded)
@@ -51,7 +51,7 @@ function formInvoice(price, tax, rebate, invoiceItem, invoiceTax, invoiceRebate,
     centsRebate = Math.round(price * rebate / 100);
     invoiceItem.innerHTML = formCurrency(price / 100);
     invoiceTax.innerHTML = formCurrency(centsTax / 100);
-    invoiceRebate.innerHTML = '-' + formCurrency(centsRebate / 100);
+    // invoiceRebate.innerHTML = '-' + formCurrency(centsRebate / 100);
     invoiceTotal.innerHTML = formCurrency((price + centsTax - centsRebate) / 100);
 }
 
@@ -60,10 +60,10 @@ function formStateChange(src, dst, vat, ind, cur) {
     var notApplicableStates = new Array('N/A');
     var usStates = new Array('Select a State *', 'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District Of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming');
 
-    var caPrices = new Array('C$6.99/month', 'C$24.99/month', 'C$59.99/month', 'C$179.99/month');
-    var euPrices = new Array('(Not available in the EU)', 'C$29.99/month', 'C$69.99/month', 'C$199.99/month');
-    var jpPrices = new Array('(Not available in Japan)', 'C$29.99/month', 'C$69.99/month', 'C$199.99/month');
-    var usPrices = new Array('C$6.99/month', 'C$24.99/month', 'C$59.99/month', 'C$179.99/month');
+    var caPrices = new Array('C$6.99/month', 'C$59.99/month', 'C$179.99/month');
+    var euPrices = new Array('(Not available in the EU)', 'C$69.99/month', 'C$199.99/month');
+    var jpPrices = new Array('(Not available in Japan)', 'C$69.99/month', 'C$199.99/month');
+    var usPrices = new Array('C$6.99/month', 'C$59.99/month', 'C$179.99/month');
 
     if (src == null)
         return;
@@ -119,34 +119,44 @@ function formProductSelect(country, state, terms, price, invoiceItem, invoiceTax
 
     switch (country.value) {
         case 'Austria':
-            formInvoice(centsItem, 20, 20, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            // formInvoice(centsItem, 20, 20, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            formInvoice(centsItem, 0, 0, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
             break;
         case 'Belgium':
-            formInvoice(centsItem, 21, 21, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            // formInvoice(centsItem, 21, 21, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            formInvoice(centsItem, 0, 0, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
             break;
         case 'France':
-            formInvoice(centsItem, 20, 20, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            // formInvoice(centsItem, 20, 20, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            formInvoice(centsItem, 0, 0, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
             break;
         case 'Germany':
-            formInvoice(centsItem, 19, 19, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            // formInvoice(centsItem, 19, 19, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            formInvoice(centsItem, 0, 0, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
             break;
         case 'Italy':
-            formInvoice(centsItem, 22, 22, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            // formInvoice(centsItem, 22, 22, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            formInvoice(centsItem, 0, 0, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
             break;
         case 'Ireland':
-            formInvoice(centsItem, 23, 23, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            // formInvoice(centsItem, 23, 23, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            formInvoice(centsItem, 0, 0, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
             break;
         case 'Netherlands':
-            formInvoice(centsItem, 21, 21, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            // formInvoice(centsItem, 21, 21, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            formInvoice(centsItem, 0, 0, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
             break;
         case 'Portugal':
-            formInvoice(centsItem, 23, 23, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            // formInvoice(centsItem, 23, 23, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            formInvoice(centsItem, 0, 0, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
             break;
         case 'Spain':
-            formInvoice(centsItem, 21, 21, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            // formInvoice(centsItem, 21, 21, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            formInvoice(centsItem, 0, 0, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
             break;
         case 'United Kingdom':
-            formInvoice(centsItem, 20, 20, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            // formInvoice(centsItem, 20, 20, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            formInvoice(centsItem, 0, 0, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
             break;
         case 'Canada':
             switch (state.value) {
@@ -205,7 +215,8 @@ function formProductSelect(country, state, terms, price, invoiceItem, invoiceTax
             }
             break;
         case 'Japan':
-            formInvoice(centsItem, 8, 8, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            // formInvoice(centsItem, 8, 8, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
+            formInvoice(centsItem, 0, 0, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal, true);
             break;
         default:
             break;
@@ -216,12 +227,12 @@ function formClearInvoice()
 {
     var invoiceItem = $('#invoice_item').get(0);
     var invoiceTax = $('#invoice_tax').get(0);
-    var invoiceRebate = $('#invoice_rebate').get(0);
+    // var invoiceRebate = $('#invoice_rebate').get(0);
     var invoiceTotal = $('#invoice_total').get(0);
 
     invoiceItem.innerHTML = '-';
     invoiceTax.innerHTML = '-';
-    invoiceRebate.innerHTML = '-';
+    // invoiceRebate.innerHTML = '-';
     invoiceTotal.innerHTML = '-';
 }
 
@@ -243,7 +254,7 @@ function formRecalculateTotal()
     var price = $('#' + priceId).get(0);
     var invoiceItem = $('#invoice_item').get(0);
     var invoiceTax = $('#invoice_tax').get(0);
-    var invoiceRebate = $('#invoice_rebate').get(0);
+    var invoiceRebate = null; // $('#invoice_rebate').get(0);
     var invoiceTotal = $('#invoice_total').get(0);
 
     formProductSelect(country, state, eula, price, invoiceItem, invoiceTax, invoiceRebate, invoiceTotal);
@@ -299,7 +310,107 @@ function formContact()
 
 function formTrial()
 {
-    var x = 0;
+    $('#success').html("<div class='alert alert-info'><i class='fa fa-spinner fa-spin'></i>");
+
+    var email = $("input#email").val();
+    var license = $("input#license").val();
+    $.ajax({
+        url: "http://localhost:8000/license/trial/",
+        type: "POST",
+        data: JSON.stringify({
+            name: "BioInterchange 2 Trial",
+            email: email,
+            license: license
+        }),
+        dataType: 'json',
+        cache: false,
+        success: function(e) {
+            $('#success').html("<div class='alert alert-success'>");
+            $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                .append("</button>");
+            $('#success > .alert-success')
+                .append("<strong>A trial license is on the way! Check your email in a few minutes!</strong>");
+            $('#success > .alert-success')
+                .append('</div>');
+
+            $('#biointerchangeTrialForm').trigger("reset");
+        },
+        error: function(e) {
+            $('#success').html("<div class='alert alert-danger'>");
+            $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                .append("</button>");
+            $('#success > .alert-danger').append("<strong>Sorry, it seems that something went wrong. Please, send an email to <a href=\"mailto:kim@codamono.com\">kim@codamono.com</a> instead!");
+            $('#success > .alert-danger').append('</div>');
+
+            $('#contactForm').trigger("reset");
+        }
+    })
+}
+
+function formPurchase()
+{
+    $('#success').html("<div class='alert alert-info'><i class='fa fa-spinner fa-spin'></i>");
+
+    var name = $("input#name").val();
+    var affiliation = $("input#affiliation").val();
+    var address1 = $("input#address1").val();
+    var address2 = $("input#address2").val();
+    var city = $("input#city").val();
+    var postal = $("input#postal").val();
+    var email = $("input#email").val();
+    var phone = $("input#phone").val();
+    var vatid = $("input#vatid").val();
+    var license = $("input[type='radio'][name='license']:checked").val();
+    var terms = $("input#eula").val();
+    var invoices = $("input#ccard").val();
+    var promo = $("input#promo").val();
+    var fee = $("#invoice_item").text();
+    var tax = $("#invoice_tax").text();
+    var total = $("#invoice_total").text();
+    $.ajax({
+        url: "http://localhost:8000/license/purchase/",
+        type: "POST",
+        data: JSON.stringify({
+            name: name,
+            affiliation: affiliation,
+            address1: address1,
+            address2: address2,
+            city: city,
+            postal: postal,
+            email: email,
+            phone: phone,
+            vatid: vatid,
+            license: license,
+            terms: terms,
+            invoices: invoices,
+            promo: promo,
+            fee: fee,
+            tax: tax,
+            total: total
+        }),
+        dataType: 'json',
+        cache: false,
+        success: function(e) {
+            $('#success').html("<div class='alert alert-success'>");
+            $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                .append("</button>");
+            $('#success > .alert-success')
+                .append("<strong>Thank you for your purchase! You will get an invoice by email in one or two days!</strong>");
+            $('#success > .alert-success')
+                .append('</div>');
+
+            $('#biointerchangeTrialForm').trigger("reset");
+        },
+        error: function(e) {
+            $('#success').html("<div class='alert alert-danger'>");
+            $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                .append("</button>");
+            $('#success > .alert-danger').append("<strong>Oh no, it seems that something went wrong! Your order has not been filed yet. Please, send an email to <a href=\"mailto:kim@codamono.com\">kim@codamono.com</a> instead!");
+            $('#success > .alert-danger').append('</div>');
+
+            $('#contactForm').trigger("reset");
+        }
+    })
 }
 
 $(function() {
@@ -315,6 +426,8 @@ $(function() {
                 formContact();
             else if ($('#biointerchangeTrialForm').length == 1)
                 formTrial();
+            else if ($('#biointerchangePurchaseForm').length == 1)
+                formPurchase();
         },
         filter: function() {
             return $(this).is(":visible");

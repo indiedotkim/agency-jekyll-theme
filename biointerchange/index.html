@@ -27,15 +27,132 @@ BioInterchange gets you to the data straightaway:
 * data integration into RethinkDB, MongoDB, Elasticseach, etc., via __JSON__
 * more data integration into RDF triple stores via __JSON-LD__
 
-Cloud and NoSQL genomics data integration made easy. BioInterchange transforms multiple genomic data formats into an annotated JSON format to enable harmonized data access and data mining. Instantly upload BioInterchange's JSON output into the Cloud or contemporary NoSQL databases. Elasticsearch, MongoDB, RethinkDB, and many other databases become immediately available for genomics data hosting with the press of a key.
+<div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+        <div class="panel panel-info" role="alert">
+            <div class="panel-heading">
+                Peer Review
+            </div>
+            <div class="panel-body">
+                Academic reviewers in the peer-review process are eligible for <i>renewable</i> 30 days free licenses. Please get directly in touch via the <a href="/#contact">contact form</a> for more details.
+            </div>
+        </div>
+    </div>
+</div>
 
-For specific information regarding the representation of genomic data using Semantic Web technology and the Genomic Feature and Variation Ontology (GFVO), please visit: [https://peerj.com/articles/933/](https://peerj.com/articles/933/)
+<script src="/js/d3.min.js"></script>
+<script src="/js/c3.min.js"></script>
+
+### Data Views
+
+Genomic features and variations are encoded very differently across the genomics file formats. BioInterchange normalizes your genomic datasets in one canonical data view.
+
+<dl>
+    <dt>Genomic Data Mashup</dt>
+    <dd markdown="1">
+    {
+        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
+        "id" : "76",
+        "locus" : {
+            "landmark" : "Chr1",
+            "start" : 675,
+            "end" : 675,
+            "strand" : "+"
+        },
+        "source" : "SGRP",
+        "type" : "SNV",
+        "dbxref" : [
+            "SGRP:s01-675",
+            "EMBL:AA816246"
+        ],
+        "reference" : {
+            "sequence" : "A",
+            "codon" : "GAG"
+        },
+        "variants" : {
+            "B" : {
+                "sequence" : "G",
+                "codon" : "GAG"
+            },
+            "C" : {
+                "codon" : "GGG",
+                "sequence" : "T"
+            }
+        }
+    }
+</dd>
+</dl>
+
+### High-Performance
+
+BioInterchange is written in C and makes use of some nifty system features for best performance! It is super fast and memory efficient in comparison to BioPython and BioRuby projects.[^1]
+
+[^1]: Average time/memory (at least 5 data points) shown for reading [RegulatoryFeatures_HeLa-S3.gff](ftp://ftp.ensembl.org/pub/release-80/regulation/homo_sapiens/RegulatoryFeatures_HeLa-S3.gff.gz) and writing the output to `/dev/null`. BioRuby 1.4.3.0001, Ruby 2.0.0-p247, Darwin; BioPython 1.65/BCBio 0.6.2, Python 3.4.2_1, Darwin.
+
+#### Computing Time
+
+**Shown:** factor of time needed to process a GFF3 file in reference to the time needed by BioInterchange.
+
+<div id="timechart"></div>
+
+#### Memory Consumption
+
+**Shown:** factor of memory allocated when processing a GFF3 file in reference to the memory allocated by BioInterchange. Yes, that baseline for BioInterchange is really that low.
+
+<div id="memchart"></div>
+
+<script>
+    c3.generate({
+        bindto: '#timechart',
+        tooltip: { show: false },
+        data: {
+            type: 'bar',
+            columns: [
+                [ 'BioInterchange', 1.00 ],
+                [ 'BioInterchange/Python API', 1.85 ],
+                [ 'BioPython', 4.10 ],
+                [ 'BioRuby', 5.42 ]
+            ]
+        },
+        grid: {
+            y: {
+                lines: [ { value: 1.0, text: 'baseline' } ]
+            }
+        }
+    });
+    c3.generate({
+        bindto: '#memchart',
+        tooltip: { show: false },
+        data: {
+            type: 'bar',
+            columns: [
+                [ 'BioInterchange', 1.00 ],
+                [ 'BioInterchange/Python API', 160.28 ],
+                [ 'BioPython', 131.54 ],
+                [ 'BioRuby', 183.53 ]
+            ]
+        },
+        grid: {
+            y: {
+                lines: [ { value: 1.0, text: 'baseline' } ]
+            }
+        }
+    });
+</script>
+
+### Data Integration
+
+On top of one data view for all your genomics data, you also benefit from **JSON as the lingua franca** for modern database management systems. There are the amazing NoSQL database management systems such as MongoDB and RethinkDB which are all about JSON, as well as the famous search server Elasticsearch. Established relational database management systems, for example PostgreSQL, support JSON nowadays too, and so is the Apache Hive data warehouse infrastructure that is build on top of Hadoop.
+
+Not enough yet? Well, BioInterchange's JSON is also JSON-LD (**JSON Linked Data**), which plays well with triple stores, but requires for less storage than alternative triple store formats such as RDF N-Triples. If your company builds on triple stores such as Virtuoso or Sesame, then your can fully make use of the JSON-LD contexts/types and easily turn the genomics data into any RDF format of your choice!
+
+Last, but not least, go **full circle** and turn your JSON/JSON-LD data back into GFF3, GVF and VCF genomic files! How many tools can claim this feature, please?
 
 ## Try It Now!
 
 ### Step 1: Install the Software
 
-BioInterchange is available for OS X[^1] and Linux.[^2] Installation packages come in various flavors: some are better for easy manual installation, others are geared towards automatic deployment, for use in the cloud, or for installation on high performance computing clusters. If in doubt, choose the direct download method below.
+BioInterchange is available for OS X[^2] and Linux.[^3] Installation packages come in various flavors: some are better for easy manual installation, others are geared towards automatic deployment, for use in the cloud, or for installation on high performance computing clusters. If in doubt, choose the direct download method below.
 
 <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
@@ -53,8 +170,8 @@ BioInterchange is available for OS X[^1] and Linux.[^2] Installation packages co
 #### Direct Download
 
 <div class="download">
-    <a href="" class="btn btn-primary"><i class="text-icon-dark fa fa-apple fa-4x fa-fw"></i><br><span class="text-icon-dark">OS X</span></a>
-    <a href="" class="btn btn-primary"><i class="text-icon-dark fa fa-linux fa-4x fa-fw"></i><br><span class="text-icon-dark">Linux</span></a>
+    <a href="/dmgs/BioInterchange%202.0.1+74.dmg" class="btn btn-primary"><i class="text-icon-dark fa fa-apple fa-4x fa-fw"></i><br><span class="text-icon-dark">OS X</span></a>
+    <a href="/debs/dists/stable/main/binary-amd64/biointerchange_2.0.1+75.deb" class="btn btn-primary"><i class="text-icon-dark fa fa-linux fa-4x fa-fw"></i><br><span class="text-icon-dark">Linux</span></a>
 </div>
 
 #### Homebrew (OS X)
@@ -69,15 +186,44 @@ In the meantime:
 
 #### Docker (Linux)
 
+Pull a shipshape image:
 
+    docker pull codamono/biointerchange
+    docker run -i -t codamono/biointerchange
 
-[^1]: OS X Yosemite (Version 10.10.3) or later.
+Or, build your own with this Dockerfile:
 
-[^2]: Debian 8.1 (jessie) or later; 64-bit PC (amd64) architecture.
+    # Dockerfile: BioInterchange 2.0
+    FROM debian:jessie
+    
+    RUN apt-get clean && \
+        apt-get update && \
+        apt-get install -y \
+            apt-transport-https \
+            python3.4
+    
+    RUN echo "deb https://www.codamono.com/debs/ stable main" >> /etc/apt/sources.list
+    
+    RUN apt-get update && \
+        apt-get install -y --allow-unauthenticated biointerchange
+
+#### Debian Package (Linux)
+
+Install from CODAMONO's repository (need to be root for that, obviously):
+
+    apt-get update
+    apt-get install -y apt-transport-https python3.4
+    echo "deb https://www.codamono.com/debs/ stable main" >> /etc/apt/sources.list
+    apt-get update
+    apt-get install -y --allow-unauthenticated biointerchange
+
+[^2]: OS X Yosemite (Version 10.10.3) or later.
+
+[^3]: Debian 8.1 (jessie) or later; 64-bit PC (amd64) architecture.
 
 ### Step 2: Get a Trial License
 
-Trial licenses are valid for one month (30 days). Fill in the small form below and you will receive an e-mail with a trial license as attachment. Save the license file in your home directory (`~/` in Unix lingo) and you are good to go!
+Trial licenses are valid for one month (30 days). Fill in the small form below and you will receive an e-mail with a trial license code. Save the license code in the file `~/.biointerchange/biointerchange-license` and you are good to go!
 
 <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
@@ -86,7 +232,7 @@ Trial licenses are valid for one month (30 days). Fill in the small form below a
                 Internet Access
             </div>
             <div class="panel-body">
-                Trial versions require internet access to establish a connection to the license server. For requesting trial licenses that allow <strong>running the software without internet access</strong> &mdash; for example, for HIPAA complience &mdash; please <a href="/#contact">contact us</a>.
+                Trial versions require internet access to establish a connection to the license server. For requesting trial licenses that allow <strong>running the software without internet access</strong> &mdash; for example, for HIPAA complience &mdash; please use the <a href="/#contact">contact form</a>.
             </div>
         </div>
     </div>
@@ -105,17 +251,28 @@ Trial licenses are valid for one month (30 days). Fill in the small form below a
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" value="terms" required data-validation-required-message="Please accept the license agreementa."> I accept the terms and conditions of the <a href="">BioInterchange license agreement</a>.
+            <input type="checkbox" value="terms" id="license" required data-validation-required-message="Please accept the license agreement."> I accept the terms and conditions of the <a href="">BioInterchange license agreement</a>.
         </label>
     </div>
+    <div id="success"></div>
     <button type="submit" class="btn btn-primary"><i class="fa fa-key fa-lg fa-fw"></i> Request Key</button>
 </form>
 
 ### Step 3: Enjoy
 
-1. xyz GFF3 file: 
-2. xyz GVF file: 
-3. xyz VCF file: 
+**1.** Save your license key in this file:
+
+    ~/.biointerchange/biointerchange-license
+
+**2.** Download (and unpack) some genomics data: [cat lovers](ftp://ftp.ensembl.org/pub/release-81/variation/vcf/felis_catus/Felis_catus_incl_consequences.vcf.gz)/[dog lovers](ftp://ftp.ensembl.org/pub/release-81/variation/vcf/canis_familiaris/Canis_familiaris_incl_consequences.vcf.gz)
+ 
+**3.** Get going (cat lovers' data):
+
+    biointerchange -o Felis_catus_incl_consequences.ldj Felis_catus_incl_consequences.vcf
+
+### Next Steps
+
+Head over to the [documentation](/biointerchange/documentation/) page to see examples of getting the data into NoSQL databases, how to use the Python API, and for extensive information on the JSON/JSON-LD objects.
 
 ---
 
