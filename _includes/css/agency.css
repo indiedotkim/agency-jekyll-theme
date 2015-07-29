@@ -4,6 +4,19 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+/* Charts: */
+#timechart {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
+#memchart {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
 /* Give headings a bit more room: */
 #services dt {
     padding-bottom: 0.75ex;
