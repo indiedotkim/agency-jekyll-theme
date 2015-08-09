@@ -22,7 +22,7 @@ Genomic data comes in files, which is pretty awesome, if you are a file system! 
 
 BioInterchange gets you to the data straightaway:
 
-* one easy-to-read __data view__ to multiple genomics standards (GFF3, GVF, VCF)
+* one easy-to-read __data model__ to multiple genomics standards (GFF3, GVF, VCF)
 * high-performance data access via __Python API__ that outperforms BioPython and BioRuby
 * data integration into RethinkDB, MongoDB, Elasticseach, etc., via __JSON__
 * more data integration into RDF triple stores via __JSON-LD__
@@ -43,9 +43,9 @@ BioInterchange gets you to the data straightaway:
 <script src="/js/d3.min.js"></script>
 <script src="/js/c3.min.js"></script>
 
-### Data Views
+### Data Model
 
-Genomic features and variations are encoded very differently across the genomics file formats. BioInterchange normalizes your genomic datasets in one canonical data view.
+Genomic features and variations are encoded very differently across the genomics file formats. BioInterchange normalizes your genomic datasets in one canonical data model.
 
 <dl>
     <dt>Genomic Data Mashup</dt>
@@ -85,7 +85,7 @@ Genomic features and variations are encoded very differently across the genomics
 
 ### High-Performance
 
-BioInterchange is written in C and makes use of some nifty system features for best performance! It is super fast and memory efficient in comparison to BioPython and BioRuby projects.[^1]
+BioInterchange is written in C, makes use of some nifty system features for best performance, and has some spiffy algorithms under the hood! It is super fast and memory efficient in comparison to BioPython and BioRuby projects.[^1]
 
 [^1]: Average time/memory (at least 5 data points) shown for reading [RegulatoryFeatures_HeLa-S3.gff](ftp://ftp.ensembl.org/pub/release-80/regulation/homo_sapiens/RegulatoryFeatures_HeLa-S3.gff.gz) and writing the output to `/dev/null`. BioRuby 1.4.3.0001, Ruby 2.0.0-p247, Darwin; BioPython 1.65/BCBio 0.6.2, Python 3.4.2_1, Darwin.
 
@@ -142,7 +142,7 @@ BioInterchange is written in C and makes use of some nifty system features for b
 
 ### Data Integration
 
-On top of one data view for all your genomics data, you also benefit from **JSON as the lingua franca** for modern database management systems. There are the amazing NoSQL database management systems such as MongoDB and RethinkDB which are all about JSON, as well as the famous search server Elasticsearch. Established relational database management systems, for example PostgreSQL, support JSON nowadays too, and so is the Apache Hive data warehouse infrastructure that is build on top of Hadoop.
+On top of one data model for all your genomics data, you also benefit from **JSON as the lingua franca** for modern database management systems. There are the amazing NoSQL database management systems such as MongoDB and RethinkDB which are all about JSON, as well as the famous search server Elasticsearch. Established relational database management systems, for example PostgreSQL, support JSON nowadays too, and so is the Apache Hive data warehouse infrastructure that is build on top of Hadoop.
 
 Not enough yet? Well, BioInterchange's JSON is also JSON-LD (**JSON Linked Data**), which plays well with triple stores, but requires for less storage than alternative triple store formats such as RDF N-Triples. If your company builds on triple stores such as Virtuoso or Sesame, then your can fully make use of the JSON-LD contexts/types and easily turn the genomics data into any RDF format of your choice!
 
@@ -174,15 +174,16 @@ BioInterchange is available for OS X[^2] and Linux.[^3] Installation packages co
     <a href="/debs/dists/stable/main/binary-amd64/biointerchange_2.0.1+75.deb" class="btn btn-primary"><i class="text-icon-dark fa fa-linux fa-4x fa-fw"></i><br><span class="text-icon-dark">Linux</span></a>
 </div>
 
-#### Homebrew (OS X)
+#### Homebrew (Linux and OS X)
 
-As soon as Homebrew Binary accepts BioInterchange's formula:
+BioInterchange is part of Homebrew Science:
 
-    brew install homebrew/binary/biointerchange
+    brew install homebrew/science/biointerchange
 
-In the meantime:
+Or:
 
-    brew install https://raw.githubusercontent.com/indiedotkim/homebrew-binary/master/biointerchange.rb
+    brew tap homebrew/science
+    brew install biointerchange
 
 #### Docker (Linux)
 
@@ -251,7 +252,7 @@ Trial licenses are valid for one month (30 days). Fill in the small form below a
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" value="terms" id="license" required data-validation-required-message="Please accept the license agreement."> I accept the terms and conditions of the <a href="/license/biointerchange-l1.txt">BioInterchange license agreement</a>.
+            <input type="checkbox" value="terms" id="license" required data-validation-required-message="Please accept the license agreement."> I accept the terms and conditions of the <a href="/eulas/biointerchange-l1.txt">BioInterchange license agreement</a>.
         </label>
     </div>
     <div id="success"></div>

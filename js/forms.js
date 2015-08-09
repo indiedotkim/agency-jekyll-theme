@@ -315,7 +315,7 @@ function formTrial()
     var email = $("input#email").val();
     var license = $("input#license").val();
     $.ajax({
-        url: "http://localhost:8000/license/trial/",
+        url: "https://www.codamono.com/license/trial/",
         type: "POST",
         data: JSON.stringify({
             name: "BioInterchange 2 Trial",
@@ -368,7 +368,7 @@ function formPurchase()
     var tax = $("#invoice_tax").text();
     var total = $("#invoice_total").text();
     $.ajax({
-        url: "http://localhost:8000/license/purchase/",
+        url: "https://www.codamono.com/license/purchase/",
         type: "POST",
         data: JSON.stringify({
             name: name,
