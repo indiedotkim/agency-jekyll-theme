@@ -5,6 +5,10 @@
  */
 
 /* Logos: */
+.distribution {
+    margin-top: 3ex;
+}
+
 .docker-logo {
     border-radius: 100ex;
     -webkit-border-radius: 100ex;
@@ -64,11 +68,12 @@
 
 .nav-buttons {
     text-align: center;
-    margin-bottom: 3ex;
+    margin-top: 1ex;
+    margin-bottom: 4ex;
 }
 
 .nav-buttons > * {
-    margin: 0 1ex;
+    margin: 1ex 1ex;
 }
 
 .download {
