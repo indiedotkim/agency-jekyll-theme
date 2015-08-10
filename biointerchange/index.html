@@ -6,32 +6,20 @@ img: BioInterchange600white.png
 thumbnail: BioInterchange-thumbnail.png
 alt: image-alt
 markdown: kramdown
-category: Software Development
+category: BioInterchange
 ---
 
 <div class="nav-buttons">
-<a href="#try-it-now" role="button" class="btn btn-primary page-scroll">Try it!</a>
-<a href="/biointerchange/purchase/" role="button" class="btn btn-primary">Buy it!</a>
+<a href="#try-it-now" role="button" class="btn btn-primary page-scroll"><i class="fa fa-paper-plane"></i><br/>Try it</a>
+<a href="/biointerchange/purchase/" role="button" class="btn btn-primary"><i class="fa fa-credit-card"></i><br/>Buy it</a>
+<a href="/biointerchange/documentation/" role="button" class="btn btn-primary"><i class="fa fa-book"></i><br/>Documentation</a>
 </div>
-
-<div class="nav-buttons">
-<a href="/biointerchange/documentation/" role="button" class="btn btn-info">Documentation</a>
-</div>
-
-Genomic data comes in files, which is pretty awesome, if you are a file system! For data scientists or bioinformaticians it is an unnecessary hurdle to get to the juicy data though.
-
-BioInterchange gets you to the data straightaway:
-
-* one easy-to-read __data model__ to multiple genomics standards (GFF3, GVF, VCF)
-* high-performance data access via __Python API__ that outperforms BioPython and BioRuby
-* data integration into RethinkDB, MongoDB, Elasticseach, etc., via __JSON__
-* more data integration into RDF triple stores via __JSON-LD__
 
 <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
         <div class="panel panel-info" role="alert">
             <div class="panel-heading">
-                Peer Review
+                Peer Review Licenses
             </div>
             <div class="panel-body">
                 Academic reviewers in the peer-review process are eligible for <i>renewable</i> 30 days free licenses. Please get directly in touch via the <a href="/#contact">contact form</a> for more details.
@@ -40,16 +28,85 @@ BioInterchange gets you to the data straightaway:
     </div>
 </div>
 
+<section id="biointerchange-features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Features</h2>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-unlock-alt fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="service-heading">Unified Data Model</h4>
+                <p class="text-muted">One easy-to-read &mdash; for humans <em>and</em> machines &mdash; for multiple genomic standards: Generic Feature Format Version 3 (GFF3), Genome Variation Format (GVF) and Variant Call Format (VCF).</p>
+            </div>
+            <div class="col-md-4">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-cogs fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="service-heading">High-Performance API</h4>
+                <p class="text-muted">High-performance data access via a Python API that outperforms both BioPython and BioRuby in terms of computational speed and reduced memory footprint.</p>
+            </div>
+            <div class="col-md-4">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-database fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="service-heading">Data Integration</h4>
+                <p class="text-muted">Straightforward data integration via JSON into NoSQL databases such as RethinkDB, MongoDB, CouchDB; or JSON supporting SQL databases like MySQL and PostgreSQL; or search servers such as Elasticsearch or Solr; or even RDF triple stores via JSON-LD.</p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <h3>Distributions</h3>
+            <div class="col-md-2 col-md-offset-2 text-center">
+                <p class="text-muted">CloudBioLinux</p>
+                <img class="cloudbiolinux-image" src="/img/logos/cloudbiolinux.png"></img>
+            </div> 
+            <div class="col-md-2 text-center">
+                <p class="text-muted">Direct Download</p>
+                <span class="fa-stack fa-2x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+                </span>
+            </div> 
+            <div class="col-md-2 text-center">
+                <p class="text-muted">Docker Hub</p>
+                <span class="docker-logo fa-stack fa-2x"><img class="docker-image" src="/img/logos/docker.svg"></img></span>
+            </div> 
+            <div class="col-md-2 text-center">
+                <p class="text-muted">Homebrew Science</p>
+                <span class="fa-stack fa-2x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-flask fa-stack-1x fa-inverse"></i>
+                </span>
+            </div> 
+        </div>
+    </div>
+</section>
+
 <script src="/js/d3.min.js"></script>
 <script src="/js/c3.min.js"></script>
 
-### Data Model
+<section id="biointerchange-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">In Detail</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1" markdown="1">
+### <span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-unlock-alt fa-stack-1x fa-inverse"></i></span> Unified Data Model
 
-Genomic features and variations are encoded very differently across the genomics file formats. BioInterchange normalizes your genomic datasets in one canonical data model.
+Genomic features and variations are encoded very differently across the genomics file formats. BioInterchange normalizes your genomic datasets in one **canonical data model**. That means that your analysis only have to consider a single point-of-view for all your genomic data!
 
-<dl>
-    <dt>Genomic Data Mashup</dt>
-    <dd markdown="1">
+In a nutshell, this is how genomic data looks like with BioInterchange -- do not mind the `gvf-f1.json` part, because that is only relevant when copying the data back to its original format:
+
     {
         "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
         "id" : "76",
@@ -80,26 +137,46 @@ Genomic features and variations are encoded very differently across the genomics
             }
         }
     }
-</dd>
-</dl>
-
-### High-Performance
+</div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1" markdown="1">
+### <span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-cogs fa-stack-1x fa-inverse"></i></span> High-Performance API
 
 BioInterchange is written in C, makes use of some nifty system features for best performance, and has some spiffy algorithms under the hood! It is super fast and memory efficient in comparison to BioPython and BioRuby projects.[^1]
-
-[^1]: Average time/memory (at least 5 data points) shown for reading [RegulatoryFeatures_HeLa-S3.gff](ftp://ftp.ensembl.org/pub/release-80/regulation/homo_sapiens/RegulatoryFeatures_HeLa-S3.gff.gz) and writing the output to `/dev/null`. BioRuby 1.4.3.0001, Ruby 2.0.0-p247, Darwin; BioPython 1.65/BCBio 0.6.2, Python 3.4.2_1, Darwin.
-
+</div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 col-md-offset-1" markdown="1">
 #### Computing Time
 
+<div id="timechart"></div>
 **Shown:** factor of time needed to process a GFF3 file in reference to the time needed by BioInterchange.
 
-<div id="timechart"></div>
-
+</div>
+            <div class="col-md-5" markdown="1">
 #### Memory Consumption
 
+<div id="memchart"></div>
 **Shown:** factor of memory allocated when processing a GFF3 file in reference to the memory allocated by BioInterchange. Yes, that baseline for BioInterchange is really that low.
 
-<div id="memchart"></div>
+</div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1" markdown="1">
+### <span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-database fa-stack-1x fa-inverse"></i></span> Data Integration
+
+On top of one data model for all your genomics data, you also benefit from **JSON as the lingua franca** for modern database management systems. There are the amazing NoSQL database management systems such as MongoDB and RethinkDB which are all about JSON, as well as the famous search server Elasticsearch. Established relational database management systems, for example PostgreSQL, support JSON nowadays too, and so is the Apache Hive data warehouse infrastructure that is build on top of Hadoop.
+
+Not enough yet? Well, BioInterchange's JSON is also JSON-LD (**JSON Linked Data**), which plays well with triple stores, but requires for less storage than alternative triple store formats such as RDF N-Triples. If your company builds on triple stores such as Virtuoso or Sesame, then your can fully make use of the JSON-LD contexts/types and easily turn the genomics data into any RDF format of your choice!
+
+Last, but not least, go **full circle** and turn your JSON/JSON-LD data back into GFF3, GVF and VCF genomic files! How many tools can claim this feature, please?
+</div>
+        </div>
+    </div>
+</section>
+
+[^1]: Average time/memory (at least 5 data points) shown for reading [RegulatoryFeatures_HeLa-S3.gff](ftp://ftp.ensembl.org/pub/release-80/regulation/homo_sapiens/RegulatoryFeatures_HeLa-S3.gff.gz) and writing the output to `/dev/null`. BioRuby 1.4.3.0001, Ruby 2.0.0-p247, Darwin; BioPython 1.65/BCBio 0.6.2, Python 3.4.2_1, Darwin.
 
 <script>
     c3.generate({
@@ -140,16 +217,15 @@ BioInterchange is written in C, makes use of some nifty system features for best
     });
 </script>
 
-### Data Integration
-
-On top of one data model for all your genomics data, you also benefit from **JSON as the lingua franca** for modern database management systems. There are the amazing NoSQL database management systems such as MongoDB and RethinkDB which are all about JSON, as well as the famous search server Elasticsearch. Established relational database management systems, for example PostgreSQL, support JSON nowadays too, and so is the Apache Hive data warehouse infrastructure that is build on top of Hadoop.
-
-Not enough yet? Well, BioInterchange's JSON is also JSON-LD (**JSON Linked Data**), which plays well with triple stores, but requires for less storage than alternative triple store formats such as RDF N-Triples. If your company builds on triple stores such as Virtuoso or Sesame, then your can fully make use of the JSON-LD contexts/types and easily turn the genomics data into any RDF format of your choice!
-
-Last, but not least, go **full circle** and turn your JSON/JSON-LD data back into GFF3, GVF and VCF genomic files! How many tools can claim this feature, please?
-
-## Try It Now!
-
+<section id="biointerchange-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 id="try-it-now" class="section-heading">Try It Now!</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1" markdown="1">
 ### Step 1: Install the Software
 
 BioInterchange is available for OS X[^2] and Linux.[^3] Installation packages come in various flavors: some are better for easy manual installation, others are geared towards automatic deployment, for use in the cloud, or for installation on high performance computing clusters. If in doubt, choose the direct download method below.
@@ -218,6 +294,10 @@ Install from CODAMONO's repository (need to be root for that, obviously):
     apt-get update
     apt-get install -y --allow-unauthenticated biointerchange
 
+#### CloudBioLinux (Linux)
+
+Please visit the [CloudBioLinux](http://cloudbiolinux.org/) web-site for instructions on installing CloudBioLinux and the BioInterchange package.
+
 [^2]: OS X Yosemite (Version 10.10.3) or later.
 
 [^3]: Debian 8.1 (jessie) or later; 64-bit PC (amd64) architecture.
@@ -274,6 +354,10 @@ Trial licenses are valid for one month (30 days). Fill in the small form below a
 ### Next Steps
 
 Head over to the [documentation](/biointerchange/documentation/) page to see examples of getting the data into NoSQL databases, how to use the Python API, and for extensive information on the JSON/JSON-LD objects.
+</div>
+        </div>
+    </div>
+</section>
 
 ---
 

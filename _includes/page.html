@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 {% if page.title != blank %}
-                <h3 class="section-heading">{{ page.title }}</h3>
+                <h1 class="section-heading">{{ page.title }}</h1>
                 {% endif %}
                 {% if page.img contains '.png' or page.img contains '.jpg' or page.img contains '.JPG' %}
                 <img src="/img/portfolio/{{ page.img }}" class="img-responsive img-centered img-page" alt="{{ page.alt }}">
@@ -16,13 +16,15 @@
             </div>
         </div>
         <div class="row text-center">
-            <div class="col-md-2">
+<!--            <div class="col-md-2">
             </div>
-            <div class="col-md-8 text-justify">
+-->
+            <div class="col-md-12 text-justify">
                 {{ page.content | markdownify }}
             </div>
-            <div class="col-md-2">
+<!--            <div class="col-md-2">
             </div>
+-->
         </div>
     </div>
 </section>
