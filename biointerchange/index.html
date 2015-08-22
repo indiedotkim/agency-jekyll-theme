@@ -1,7 +1,7 @@
 ---
 layout: "page"
 title: "BioInterchange 2.0"
-subtitle: "Scaling and Integrating Genomics Data."
+subtitle: "Integrating and Scaling Genomics Data."
 img: BioInterchange600white.png
 thumbnail: BioInterchange-thumbnail.png
 alt: image-alt
@@ -13,6 +13,7 @@ category: BioInterchange
 <a href="#try-it-now" role="button" class="btn btn-primary page-scroll"><i class="fa fa-paper-plane"></i><br/>Try it</a>
 <a href="/biointerchange/purchase/" role="button" class="btn btn-primary"><i class="fa fa-credit-card"></i><br/>Buy it</a>
 <a href="/biointerchange/documentation/" role="button" class="btn btn-primary"><i class="fa fa-book"></i><br/>Documentation</a>
+<a href="/brochures/BioInterchangeAugust2015.pdf" role="button" class="btn btn-primary"><i class="fa fa-file-text"></i><br/>Brochure</a>
 </div>
 
 <div class="row">
@@ -33,6 +34,7 @@ category: BioInterchange
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Features</h2>
+                <h3 class="section-subheading text-muted">(See also the <a href="/brochures/BioInterchangeAugust2015.pdf">brochure</a>.)</h3>
             </div>
         </div>
         <div class="row text-center">
@@ -42,7 +44,7 @@ category: BioInterchange
                     <i class="fa fa-unlock-alt fa-stack-1x fa-inverse"></i>
                 </span>
                 <h4 class="service-heading">Unified Data Model</h4>
-                <p class="text-muted">One easy-to-read &mdash; for humans <em>and</em> machines &mdash; for multiple genomic standards: Generic Feature Format Version 3 (GFF3), Genome Variation Format (GVF) and Variant Call Format (VCF).</p>
+                <p class="text-muted">One easy-to-read &mdash; for humans <em>and</em> machines &mdash; for multiple genomic standards: Generic Feature Format Version 3 (GFF3), Genome Variation Format (GVF) and Variant Call Format (VCF). Access your data without having to know the specification details of every single genomics file format.</p>
             </div>
             <div class="col-md-4">
                 <span class="fa-stack fa-4x">
@@ -50,7 +52,7 @@ category: BioInterchange
                     <i class="fa fa-cogs fa-stack-1x fa-inverse"></i>
                 </span>
                 <h4 class="service-heading">High-Performance API</h4>
-                <p class="text-muted">High-performance data access via a Python API that outperforms both BioPython and BioRuby in terms of computational speed and reduced memory footprint.</p>
+                <p class="text-muted">High-performance data access via a Python API that outperforms both BioPython and BioRuby in terms of computational speed and reduced memory footprint. The API is perfect for data filtering, data annotation and data analysis without the need of a database management system.</p>
             </div>
             <div class="col-md-4">
                 <span class="fa-stack fa-4x">
@@ -58,7 +60,7 @@ category: BioInterchange
                     <i class="fa fa-database fa-stack-1x fa-inverse"></i>
                 </span>
                 <h4 class="service-heading">Data Integration</h4>
-                <p class="text-muted">Straightforward data integration via JSON into NoSQL databases such as RethinkDB, MongoDB, CouchDB; or JSON supporting SQL databases like MySQL and PostgreSQL; or search servers such as Elasticsearch or Solr; or even RDF triple stores via JSON-LD.</p>
+                <p class="text-muted">Straightforward data integration via JSON into NoSQL databases such as RethinkDB, MongoDB, CouchDB, ArangoDB; or JSON supporting SQL databases like MySQL and PostgreSQL; or search servers such as Elasticsearch or Solr; or Hadoop based solutions such as Apache Hive and Apache Pig; or even RDF triple stores via JSON-LD.</p>
             </div>
         </div>
         <div class="row text-center">
@@ -103,47 +105,92 @@ category: BioInterchange
             <div class="col-md-10 col-md-offset-1" markdown="1">
 ### <span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-unlock-alt fa-stack-1x fa-inverse"></i></span> Unified Data Model
 
-Genomic features and variations are encoded very differently across the genomics file formats. BioInterchange normalizes your genomic datasets in one **canonical data model**. That means that your analysis only have to consider a single point-of-view for all your genomic data!
+Genomic features and variations are encoded very differently across the genomics file formats. BioInterchange normalizes your genomic datasets in one **canonical data model**. That means that data analysis algorithms can be implemented with only a single point-of-view for all genomic data. Instead of dealing with data encoding specifics, or various data representations even within the genomic file standards, it becomes possible to focus on the actual data instead.
 
-In a nutshell, this is how genomic data looks like with BioInterchange -- do not mind the `gvf-f1.json` part, because that is only relevant when copying the data back to its original format:
+BioInterchange's data model is extensively described in the [documentation](/biointerchange/documention) section, but here are a few intuituve examples.
 
-    {
-        "@context" : "https://www.codamono.com/jsonld/gvf-f1.json",
-        "id" : "76",
-        "locus" : {
-            "landmark" : "Chr1",
-            "start" : 675,
-            "end" : 675,
-            "strand" : "+"
-        },
-        "source" : "SGRP",
-        "type" : "SNV",
-        "dbxref" : [
-            "SGRP:s01-675",
-            "EMBL:AA816246"
-        ],
-        "reference" : {
-            "sequence" : "A",
+#### Genomic Loci
+
+<span class="text-muted">(Data model excerpt.)</span>
+
+~~~json
+{
+    "locus" : {
+        "landmark" : "Chr1",
+        "start" : 675,
+        "end" : 675,
+        "strand" : "+"
+    }
+}
+~~~
+
+#### Reference Sequences and Sequence Variations
+
+<span class="text-muted">(Data model excerpt.)</span>
+
+~~~json
+{
+    "reference" : {
+        "sequence" : "A",
+        "codon" : "GAG"
+    },
+    "variants" : {
+        "B" : {
+            "sequence" : "G",
             "codon" : "GAG"
         },
-        "variants" : {
-            "B" : {
-                "sequence" : "G",
-                "codon" : "GAG"
-            },
-            "C" : {
-                "codon" : "GGG",
-                "sequence" : "T"
-            }
+        "C" : {
+            "codon" : "GGG",
+            "sequence" : "T"
         }
     }
+}
+~~~
+
+#### Sample Data (Associated with a Genomic Feature)
+
+<span class="text-muted">(Data model excerpt.)</span>
+
+~~~json
+{
+    "samples" : [
+        {
+            "id" : "WSB_EiJ",
+            "depth" : 43,
+            "mapping-quality-rms" : 55,
+            "genotype-quality" : 127,
+            "allele-total-number" : 2,
+            "genotype" : {
+                "sequences" : [
+                    "T",
+                    "T"
+                ],
+                "alleles" : "BB",
+                "phased" : false
+            },
+            "AA" : {
+                "genotype-probabilities-phred-scaled" : 287,
+                "genotype-likelihood-phred-scaled" : 255
+            },
+            "AB" : {
+                "genotype-likelihood-phred-scaled" : 129,
+                "genotype-probabilities-phred-scaled" : 142
+            },
+            "BB" : {
+                "genotype-likelihood-phred-scaled" : 0,
+                "genotype-probabilities-phred-scaled" : 0
+            }
+        }
+    ]
+}
+~~~
 </div>
         </div>
         <div class="row">
             <div class="col-md-10 col-md-offset-1" markdown="1">
 ### <span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-cogs fa-stack-1x fa-inverse"></i></span> High-Performance API
 
-BioInterchange is written in C, makes use of some nifty system features for best performance, and has some spiffy algorithms under the hood! It is super fast and memory efficient in comparison to BioPython and BioRuby projects.[^1]
+BioInterchange is written in C, it makes use of some low-level system features for best performance, and has clever algorithms that minimize its memory footprint! In comparison to BioPython and BioRuby projects:[^1]
 </div>
         </div>
         <div class="row">
@@ -166,11 +213,27 @@ BioInterchange is written in C, makes use of some nifty system features for best
             <div class="col-md-10 col-md-offset-1" markdown="1">
 ### <span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-database fa-stack-1x fa-inverse"></i></span> Data Integration
 
-On top of one data model for all your genomics data, you also benefit from **JSON as the lingua franca** for modern database management systems. There are the amazing NoSQL database management systems such as MongoDB and RethinkDB which are all about JSON, as well as the famous search server Elasticsearch. Established relational database management systems, for example PostgreSQL, support JSON nowadays too, and so is the Apache Hive data warehouse infrastructure that is build on top of Hadoop.
+On top of one data model for all your genomics data, you also benefit from **JSON as the lingua franca** for modern database management systems. JSON is used at its core in NoSQL database management systems such as MongoDB and RethinkDB, as well as the famous search server Elasticsearch. Established relational database management systems, for example PostgreSQL and MySQL, natively support JSON nowadays too, and so is the Apache Hive data warehouse infrastructure and the Apache Pig data analysis platform that are build on top of Hadoop.
 
-Not enough yet? Well, BioInterchange's JSON is also JSON-LD (**JSON Linked Data**), which plays well with triple stores, but requires for less storage than alternative triple store formats such as RDF N-Triples. If your company builds on triple stores such as Virtuoso or Sesame, then your can fully make use of the JSON-LD contexts/types and easily turn the genomics data into any RDF format of your choice!
+BioInterchange's JSON is also JSON-LD (**JSON for Linked Data**), which enables the use of triple stores, but requires for less storage than alternative triple store formats that are based on the Resource Description Framework (RDF). If your company builds on triple stores such as Virtuoso or Sesame, then you can benefit from BioInterchange's JSON-LD contexts/types and easily turn the genomics data into any RDF format of your choice!
 
-Last, but not least, go **full circle** and turn your JSON/JSON-LD data back into GFF3, GVF and VCF genomic files! How many tools can claim this feature, please?
+Last, but not least, BioInterchange fully supports conversions from JSON/JSON-LD data back into GFF3, GVF and VCF genomic files.
+
+#### Compatible Software/Platforms/Frameworks
+
+There are more database management systems, data analysis platforms, and data frameworks that are potentially compatible with BioInterchange. For specific questions, please use the [contact form](/#contact") to get in touch.
+
+</div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1 text-center">
+<img class="ext-logo-wide" src="/img/logos/mongodb-logo-rgb.jpeg">
+<img class="ext-logo-wide" src="/img/logos/RethinkDB-logo-thinker.png">
+<img class="ext-logo-wide" src="/img/logos/arangodb_logo_c400.png">
+<img class="ext-logo-wide" src="/img/logos/orientdb_logo.png">
+<img class="ext-logo-wide" src="/img/logos/elasticsearch-logo.png">
+<img class="ext-logo-narrow" src="/img/logos/hive_logo.png">
+<img class="ext-logo-narrow" src="/img/logos/postgresql-logo.png">
 </div>
         </div>
     </div>
@@ -189,7 +252,13 @@ Last, but not least, go **full circle** and turn your JSON/JSON-LD data back int
                 [ 'BioInterchange/Python API', 1.85 ],
                 [ 'BioPython', 4.10 ],
                 [ 'BioRuby', 5.42 ]
-            ]
+            ],
+            colors: {
+                'BioInterchange': '#60b0d5',
+                'BioInterchange/Python API': '#246c95',
+                'BioPython': '#d0d0d0',
+                'BioRuby': '#a0a0a0'
+            }
         },
         grid: {
             y: {
@@ -207,7 +276,13 @@ Last, but not least, go **full circle** and turn your JSON/JSON-LD data back int
                 [ 'BioInterchange/Python API', 160.28 ],
                 [ 'BioPython', 131.54 ],
                 [ 'BioRuby', 183.53 ]
-            ]
+            ],
+            colors: {
+                'BioInterchange': '#60b0d5',
+                'BioInterchange/Python API': '#246c95',
+                'BioPython': '#d0d0d0',
+                'BioRuby': '#a0a0a0'
+            }
         },
         grid: {
             y: {
@@ -347,13 +422,13 @@ Trial licenses are valid for one month (30 days). Fill in the small form below a
 
 **2.** Download (and unpack) some genomics data: [cat lovers](ftp://ftp.ensembl.org/pub/release-81/variation/vcf/felis_catus/Felis_catus_incl_consequences.vcf.gz)/[dog lovers](ftp://ftp.ensembl.org/pub/release-81/variation/vcf/canis_familiaris/Canis_familiaris_incl_consequences.vcf.gz)
  
-**3.** Get going (cat lovers' data):
+**3.** Run BioInterchange (cat lovers' data):
 
     biointerchange -o Felis_catus_incl_consequences.ldj Felis_catus_incl_consequences.vcf
 
 ### Next Steps
 
-Head over to the [documentation](/biointerchange/documentation/) page to see examples of getting the data into NoSQL databases, how to use the Python API, and for extensive information on the JSON/JSON-LD objects.
+The [documentation](/biointerchange/documentation/) section has examples of getting the data into NoSQL databases, how to use the Python API, and extensive information on the JSON/JSON-LD objects.
 </div>
         </div>
     </div>

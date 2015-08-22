@@ -4,9 +4,25 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+/* Brand for pages: */
+.intext-brand {
+    font-family: "Tenor Sans","Helvetica Neue",Helvetica,Arial,cursive;
+    letter-spacing: 1ex;
+}
+
 /* Logos: */
 .distribution {
     margin-top: 3ex;
+}
+
+.ext-logo-wide {
+    width: 140px;
+    margin: 15px;
+}
+
+.ext-logo-narrow {
+    width: 80px;
+    margin: 15px;
 }
 
 .docker-logo {

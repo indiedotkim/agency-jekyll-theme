@@ -17,17 +17,17 @@ color:
   navbar-dark: 292929
 
 # Team names, titles and social links
-#people:
-#- name: Kim
-#  pic: 1
-#  position: Owner
-#  social:
-#    - title: twitter
-#      url: #
-#    - title: facebook
-#      url: #
-#    - title: stack-overflow
-#      url: #
+people:
+- name: Joachim Baran
+  pic: 1
+  position: Ph.D., CAPM<br />Sole Proprietor
+  social:
+    - title: twitter
+      url: https://twitter.com/indiedotkim
+    - title: linkedin
+      url: https://www.linkedin.com/profile/view?id=AAIAAAmScH0B38m_GBr0vlUmdTX7Ueed6PSit7I
+    - title: pencil
+      url: http://indie.kim/
 
 #- name: Larry Parker
 #  pic: 2

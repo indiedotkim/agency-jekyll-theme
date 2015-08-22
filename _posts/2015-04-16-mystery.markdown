@@ -1,6 +1,6 @@
 ---
 title: Mystery Project
-subtitle: As secret as the Batcave's location.
+subtitle: (Late 2015)
 layout: default
 modal-id: 2
 date: 2015-04-16
