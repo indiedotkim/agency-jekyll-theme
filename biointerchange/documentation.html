@@ -451,8 +451,9 @@ VCF genomic files contain information about samples. Reference, variant, and oth
     <dd markdown="1">
     {
         "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
-        "samples" : {
-            "129P2" : {
+        "samples" : [
+            {
+                "id" : "129P2",
                 "variants" : {
                     "B" : {
                         "allele-count-expected" : 4
@@ -484,7 +485,7 @@ VCF genomic files contain information about samples. Reference, variant, and oth
                     "FI" : 0
                 }
             }
-        }
+        ]
     }
 </dd>
 </dl>
@@ -629,8 +630,9 @@ def process_feature(feature):
             <dd markdown="1">
     {
         "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
-        "samples" : {
-            "129P2" : {
+        "samples" : [
+            {
+                "id" : "129P2",
                 "variants" : {
                     "B" : {
                         "allele-count-expected" : 4
@@ -640,7 +642,7 @@ def process_feature(feature):
                     }
                 }
             }
-        }
+        ]
     }
 </dd>
         </dl>
@@ -671,8 +673,9 @@ def process_feature(feature):
             <dd markdown="1">
     {
         "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
-        "samples" : {
-            "129P2" : {
+        "samples" : [
+            {
+                "id" : "129P2",
                 "AA" : {
                     "genotype-likelihood-phred-scaled" : 53
                 },
@@ -691,7 +694,7 @@ def process_feature(feature):
                     "alleles" : "AB"
                 }
             }
-        }
+        ]
     }
 </dd>
         </dl>
@@ -1664,11 +1667,12 @@ def process_feature(feature):
     {
         "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
         "depth" : 75,
-        "samples" : {
-            "129P2" : {
+        "samples" : [
+            {
+                "id" : "129P2",
                 "depth" : 2
             }
-        }
+        ]
     }
 </dd>
         </dl>
@@ -2072,8 +2076,9 @@ def process_feature(feature):
             <dd markdown="1">
     {
         "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
-        "samples" : {
-            "129P2" : {
+        "samples" : [
+            {
+                "id" : "129P2",
                 "AA" : {
                     "genotype-likelihood-phred-scaled" : 53
                 },
@@ -2092,7 +2097,7 @@ def process_feature(feature):
                     "alleles" : "AB"
                 }
             }
-        }
+        ]
     }
 </dd>
         </dl>
@@ -2168,8 +2173,9 @@ def process_feature(feature):
             <dd markdown="1">
     {
         "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
-        "samples" : {
-            "129P2" : {
+        "samples" : [
+            {
+                "id" : "129P2",
                 "AA" : {
                     "genotype-likelihood" : 12
                 },
@@ -2188,7 +2194,7 @@ def process_feature(feature):
                     "alleles" : "AB"
                 }
             }
-        }
+        ]
     }
 </dd>
         </dl>
@@ -2219,8 +2225,9 @@ def process_feature(feature):
             <dd markdown="1">
     {
         "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
-        "samples" : {
-            "129P2" : {
+        "samples" : [
+            {
+                "id" : "129P2",
                 "AA" : {
                     "genotype-likelihood-phred-scaled" : 53
                 },
@@ -2239,7 +2246,7 @@ def process_feature(feature):
                     "alleles" : "AB"
                 }
             }
-        }
+        ]
     }
 </dd>
         </dl>
@@ -2978,8 +2985,9 @@ def process_feature(feature):
             <dd markdown="1">
     {
         "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
-        "samples" : {
-            "129P2" : {
+        "samples" : [
+            {
+                "id" : "129P2",
                 "genotype" : {
                     "alleles" : "BB",
                     "phased" : true,
@@ -2990,7 +2998,7 @@ def process_feature(feature):
                 },
                 "phase-set" : 1
             }
-        }
+        ]
     }
 </dd>
         </dl>
@@ -3019,8 +3027,9 @@ def process_feature(feature):
             <dd markdown="1">
     {
         "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
-        "samples" : {
-            "129P2" : {
+        "samples" : [
+            {
+                "id" : "129P2",
                 "genotype" : {
                     "alleles" : "BB",
                     "phased" : true,
@@ -3031,7 +3040,7 @@ def process_feature(feature):
                 },
                 "phase-set" : 1
             }
-        }
+        ]
     }
 </dd>
         </dl>
@@ -3095,8 +3104,9 @@ def process_feature(feature):
             <dd markdown="1">
     {
         "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
-        "samples" : {
-            "129P3" : {
+        "samples" : [
+            {
+                "id" : "129P3",
                 "genotype" : {
                     "alleles" : "AB",
                     "phased" : true,
@@ -3107,7 +3117,7 @@ def process_feature(feature):
                 },
                 "phasing-quality" : 4
             }
-        }
+        ]
     }
 </dd>
         </dl>
@@ -3370,7 +3380,7 @@ def process_feature(feature):
             <dt>Appears in</dt>
             <dd>feature object</dd>
             <dt>JSON Type</dt>
-            <dd>object</dd>
+            <dd>orray of bject</dd>
             <dt>JSON-LD Type</dt>
             <dd>gfvo-squared:samples</dd>
             <dt>Genomic Data Source</dt>
@@ -3383,8 +3393,9 @@ def process_feature(feature):
             <dd markdown="1">
     {
         "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
-        "samples" : {
-            "129P2" : {
+        "samples" : [
+            {
+                "id" : "129P2",
                 "genotype" : {
                     "sequences" : [
                         "G",
@@ -3394,7 +3405,7 @@ def process_feature(feature):
                     "alleles" : "AB"
                 }
             }
-        }
+        ]
     }
 </dd>
         </dl>
@@ -3522,8 +3533,9 @@ def process_feature(feature):
             <dd markdown="1">
     {
         "@context" : "https://www.codamono.com/jsonld/vcf-f1.json",
-        "samples" : {
-            "129P2" : {
+        "samples" : [
+            {
+                "id" : "129P2",
                 "genotype" : {
                     "sequences" : [
                         "G",
@@ -3532,7 +3544,7 @@ def process_feature(feature):
                     "alleles" : "AB"
                 }
             }
-        }
+        ]
     }
 </dd>
         </dl>
