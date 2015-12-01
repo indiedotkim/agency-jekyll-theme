@@ -4,6 +4,27 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+/* Carousel */
+ 
+.carousel-control > span {
+    line-height: 480px;
+}
+
+.carousel-img {
+    text-align: center;
+    max-height: 500px;
+    margin-bottom: 50px;
+}
+
+.carousel-indicators .active {
+    border-color: #414141;
+    background-color: #414141;
+}
+
+.carousel-indicators > li {
+    border-color: #414141;
+}
+
 /* Brand for pages: */
 .intext-brand {
     font-family: "Tenor Sans","Helvetica Neue",Helvetica,Arial,cursive;
@@ -11,6 +32,12 @@
 }
 
 /* Logos: */
+
+.external-website {
+    margin-top: 3ex;
+    min-height: 12ex;
+}
+
 .distribution {
     margin-top: 3ex;
 }
@@ -30,6 +57,11 @@
     -webkit-border-radius: 100ex;
     -moz-border-radius: 100ex;
     background-color: #3b5064;
+}
+
+.website-image {
+    max-height: 5ex;
+    max-width: 10ex;
 }
 
 .docker-image {

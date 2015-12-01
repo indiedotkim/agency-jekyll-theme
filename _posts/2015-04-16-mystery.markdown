@@ -1,9 +1,9 @@
 ---
-title: Mystery Project
-subtitle: (Late 2015)
+title: Mystery Project II
+subtitle: (Early 2016)
 layout: default
-modal-id: 2
-date: 2015-04-16
+modal-id: 3
+date: 2015-04-15
 img: Question-Marks600white.png
 thumbnail: Question-Marks-thumbnail.png
 alt: image-alt
