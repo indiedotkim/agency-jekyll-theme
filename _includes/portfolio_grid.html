@@ -9,6 +9,7 @@
             </div>
             <div class="row">
             {% for post in site.posts %}
+            {% unless post.tags contains 'opensource' %}
                 <div class="col-md-4 col-sm-6 portfolio-item">
                     <a href="{{ post.relative }}" class="portfolio-link">
                         <div class="portfolio-hover">
@@ -23,6 +24,47 @@
                         <p class="text-muted">{{ post.subtitle }}</p>
                     </div>
                 </div>
+            {% endunless %}
+            {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading-minor">Open Source Projects</h2>
+                    <h3 class="section-subheading text-muted">Contributing to the community.</h3>
+                </div>
+            </div>
+            <div class="row">
+            {% assign firstcolumn = 1 %}
+            {% for post in site.posts %}
+            {% if post.tags contains 'opensource' %}
+                {% if firstcolumn == 1 %}
+                <div class="col-md-offset-4 col-md-2 col-sm-offset-3 col-sm-3 portfolio-item">
+                {% assign firstcolumn = 0 %}
+                {% else %}
+                <div class="col-md-2 col-sm-3 portfolio-item">
+                {% endif %}
+                    {% if post.tags contains 'linkout' %}
+                    <a href="{{ post.absolute }}" class="portfolio-link">
+                    {% else %}
+                    <a href="{{ post.relative }}" class="portfolio-link">
+                    {% endif %}
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                {% if post.tags contains 'linkout' %}
+                                <i class="fa fa-mail-forward"></i>
+                                {% else %}
+                                <i class="fa fa-info-circle"></i>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <img src="img/portfolio/{{ post.thumbnail }}" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4 class="reduce-size">{{ post.title }}</h4>
+                        <p class="text-muted reduce-size">{{ post.subtitle }}</p>
+                    </div>
+                </div>
+            {% endif %}
             {% endfor %}
             </div>
         </div>
