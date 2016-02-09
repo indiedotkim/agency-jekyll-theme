@@ -1,0 +1,15 @@
+---
+title: devstrap
+subtitle: Bootstrapping developer environments.
+layout: default
+modal-id: 1
+date: 2015-12-15
+img: devstrap-600.png
+thumbnail: devstrap-bw-thumbnail.png
+alt: image-alt
+category: Software Development
+tags:
+- linkout
+- opensource
+absolute: http://indiedotkim.github.io/devstrap/
+---
