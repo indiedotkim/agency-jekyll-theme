@@ -930,6 +930,8 @@ section h3.section-subheading-minor {
 .team-member img {
     margin: 0 auto;
     border: 7px solid #fff;
+    height: 50%;
+    width: 50%;
 }
 
 .team-member h4 {
