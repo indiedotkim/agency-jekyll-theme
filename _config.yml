@@ -20,25 +20,23 @@ color:
 people:
 - name: Joachim Baran
   pic: 1
-  position: Ph.D., CAPM<br />Sole Proprietor
+  position: Ph.D., CAPM<br />Founder
   social:
     - title: twitter
       url: https://twitter.com/indiedotkim
     - title: linkedin
-      url: https://www.linkedin.com/profile/view?id=AAIAAAmScH0B38m_GBr0vlUmdTX7Ueed6PSit7I
-    - title: pencil
+      url: https://www.linkedin.com/in/joachim-baran-22594745
+    - title: share-alt
       url: http://indie.kim/
 
-#- name: Larry Parker
-#  pic: 2
-#  position: Lead Marketer
-#  social:
-#    - title: twitter
-#      url: #
-#    - title: facebook
-#      url: #
-#    - title: linkedin
-#      url: #
+- name: Dina Waluyo
+  pic: 2
+  position: B.A.<br />Graphic Design Contractor
+  social:
+    - title: linkedin
+      url: https://www.linkedin.com/in/dinawaluyo
+    - title: share-alt
+      url: http://dwyo.ca/
 
 #- name: Diana Petersen
 #  pic: 3
